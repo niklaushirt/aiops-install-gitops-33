@@ -1,10 +1,11 @@
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 900-wait-running-robot-shop
+  name: 200-ldap-waitfor-ldap
   annotations:
-    argocd.argoproj.io/sync-wave: "900"
-  namespace: robot-shop
+    argocd.argoproj.io/sync-wave: "200"
+  namespace: {{.Values.aiManagerNamespace}}
 spec:
   template:
     spec:
@@ -26,15 +27,15 @@ spec:
               set -x
 
               while : ; do
-                READY=$(oc get pod -n robot-shop | grep "1/1\|2/2\|3/3\|4/4"|wc -l|tr -d ' ')
-                if [[  $READY  -lt '12' ]]; then
-                  echo 'Deployment not completed yet.'
-                  sleep 30
+                READY=$(oc get po -n default | grep ldap)
+                if [[ $READY  =~ '0/1' ]]; then
+                  echo 'LDAP Pods not ready yet.'
+                  sleep 10s
                 else
                   break
                 fi
               done
-          
-      serviceAccountName: openshift-argocd-admin-ai
+
       restartPolicy: Never
+      serviceAccountName: openshift-argocd-admin-ai
   backoffLimit: 4

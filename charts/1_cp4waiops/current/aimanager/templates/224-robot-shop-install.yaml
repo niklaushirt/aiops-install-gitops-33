@@ -5,7 +5,7 @@ kind: Route
 metadata:
   name: web
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   to:
     kind: Service
@@ -17,7 +17,7 @@ kind: PodSecurityPolicy
 metadata:
   name: robot-shop
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   allowPrivilegeEscalation: false
   fsGroup:
@@ -46,7 +46,7 @@ metadata:
   name: robot-shop
   namespace: robot-shop
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 ---
 # Source: robot-shop/templates/clusterrole.yaml
 apiVersion: rbac.authorization.k8s.io/v1
@@ -54,7 +54,7 @@ kind: ClusterRole
 metadata:
   name: robot-shop
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 rules:
 - apiGroups:
   - policy
@@ -71,7 +71,7 @@ kind: ClusterRoleBinding
 metadata:
   name: robot-shop
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -87,7 +87,7 @@ kind: Service
 metadata:
   name: cart
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: http
@@ -105,7 +105,7 @@ metadata:
     service: catalogue
   name: catalogue
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: http
@@ -125,7 +125,7 @@ metadata:
     app: robot-shop
     service: dispatch
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   clusterIP: None
   ports:
@@ -144,7 +144,7 @@ metadata:
     service: mongodb
   name: mongodb
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: mongo
@@ -162,7 +162,7 @@ metadata:
     service: mysql
   name: mysql
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: mysql
@@ -180,7 +180,7 @@ metadata:
     app: robot-shop
     service: payment
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: http
@@ -198,7 +198,7 @@ metadata:
     app: robot-shop
     service: rabbitmq
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: tcp-amqp
@@ -222,7 +222,7 @@ metadata:
     app: robot-shop
     service: ratings
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: http
@@ -240,7 +240,7 @@ metadata:
     service: redis
   name: redis
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: redis
@@ -258,7 +258,7 @@ metadata:
     app: robot-shop
     service: shipping
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: http
@@ -276,7 +276,7 @@ metadata:
     app: robot-shop
     service: user
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: http
@@ -294,7 +294,7 @@ metadata:
     app: robot-shop
     service: web
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   ports:
   - name: http
@@ -315,7 +315,7 @@ metadata:
     version: v1
     service: cart
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -362,7 +362,7 @@ metadata:
     version: v1
     service: catalogue
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -409,7 +409,7 @@ metadata:
     version: v1
     service: dispatch
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -456,7 +456,7 @@ metadata:
     version: v1
     service: mongodb
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -499,7 +499,7 @@ metadata:
     version: v1
     service: mysql
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -547,7 +547,7 @@ metadata:
     service: payment
     stage: prod
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -598,7 +598,7 @@ metadata:
     version: v1
     service: rabbitmq
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -643,7 +643,7 @@ metadata:
     service: ratings
     stage: prod
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -696,7 +696,7 @@ metadata:
     version: v1
     service: shipping
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -748,7 +748,7 @@ metadata:
     version: v1
     service: user
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -797,7 +797,7 @@ metadata:
     version: v1
     service: web
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:
@@ -845,7 +845,7 @@ metadata:
     service: redis
   name: redis
   annotations:
-    argocd.argoproj.io/sync-wave: "100"
+    argocd.argoproj.io/sync-wave: "224"
 spec:
   replicas: 1
   selector:

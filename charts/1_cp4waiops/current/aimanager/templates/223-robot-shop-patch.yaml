@@ -2,10 +2,10 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 010-robot-shop-patch
+  name: 223-robot-shop-patch
   namespace: robot-shop
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "223"
 spec:
   template:
     spec:
@@ -24,6 +24,11 @@ spec:
             - /bin/sh
             - -c
             - |
+
+              echo "---------------------------------------------------------------------------------"
+              echo " 💊 Patching ClusterRoles"
+              echo "---------------------------------------------------------------------------------"
+
               oc adm policy add-scc-to-user privileged -n robot-shop -z robot-shop || true
               oc create clusterrolebinding default-robotinfo1-admin --clusterrole=cluster-admin --serviceaccount=robot-shop:robot-shop || true
               oc adm policy add-scc-to-user privileged -n robot-shop -z default                                 || true

@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   name: robot-shop
   annotations:
-    argocd.argoproj.io/sync-wave: "-1"
+    argocd.argoproj.io/sync-wave: "220"
 spec:
   finalizers:
   - kubernetes

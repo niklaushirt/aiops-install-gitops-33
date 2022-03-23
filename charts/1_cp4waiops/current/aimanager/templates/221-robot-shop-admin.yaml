@@ -4,14 +4,14 @@ metadata:
   name: openshift-argocd-admin-ai
   namespace: robot-shop
   annotations:
-    argocd.argoproj.io/sync-wave: "0"
+    argocd.argoproj.io/sync-wave: "221"
 ---
 kind: ClusterRoleBinding
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: openshift-argocd-admin-ai-robot-shop
   annotations:
-    argocd.argoproj.io/sync-wave: "10"
+    argocd.argoproj.io/sync-wave: "222"
 subjects:
   - kind: ServiceAccount
     name: openshift-argocd-admin-ai

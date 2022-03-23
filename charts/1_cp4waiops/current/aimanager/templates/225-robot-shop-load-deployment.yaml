@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: load
   annotations:
-    argocd.argoproj.io/sync-wave: "110"
+    argocd.argoproj.io/sync-wave: "225"
   labels:
     service: load
 spec:
@@ -46,6 +46,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: load
+  annotations:
+    argocd.argoproj.io/sync-wave: "225"
   namespace: robot-shop
 spec:
   ports:
