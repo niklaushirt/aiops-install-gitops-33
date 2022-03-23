@@ -4,7 +4,6 @@ metadata:
   name: 219-ldap-get-logins
   annotations:
     argocd.argoproj.io/sync-wave: "219"
-    argocd.argoproj.io/hook: PostSync
   namespace: {{.Values.aiManagerNamespace}}
 spec:
   template:
