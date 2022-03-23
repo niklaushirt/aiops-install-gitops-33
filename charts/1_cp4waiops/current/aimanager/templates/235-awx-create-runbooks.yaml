@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 900-wait-running-awx
+  name: 235-awx-create-runbooks
   annotations:
     argocd.argoproj.io/sync-wave: "234"
   namespace: awx
