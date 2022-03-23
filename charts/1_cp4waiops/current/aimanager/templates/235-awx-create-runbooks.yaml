@@ -58,7 +58,7 @@ spec:
                   \"description\": \"CP4WAIOPS Runbooks\",
                   \"local_path\": \"\",
                   \"scm_type\": \"git\",
-                  \"scm_url\": \"'$AWX_REPO'\",
+                  \"scm_url\": \"$AWX_REPO\",
                   \"scm_branch\": \"\",
                   \"scm_refspec\": \"\",
                   \"scm_clean\": false,
@@ -102,7 +102,7 @@ spec:
                 \"name\": \"CP4WAIOPS Runbooks\",
                 \"description\": \"CP4WAIOPS Runbooks\",
                 \"organization\": 1,
-                \"project\": '$AWX_PROJECT_ID',
+                \"project\": $AWX_PROJECT_ID,
                 \"kind\": \"\",
                 \"host_filter\": null,
                 \"variables\": \"\"
