@@ -1,0 +1,164 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: 252-ai-topology-app
+  annotations:
+    argocd.argoproj.io/sync-wave: "252"
+  namespace: {{.Values.spec.aiManager.namespace}}
+spec:
+  template:
+    spec:
+      containers:
+        - name: config
+          image: niklaushirt/cp4waiops-awx:0.1.3
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "150m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -x
+
+
+              echo "---------------------------------------------------------------------------------"
+              echo " 📥 Initialize"
+              echo "---------------------------------------------------------------------------------"
+
+              export WAIOPS_NAMESPACE=$(oc get po -A|grep aimanager-operator |awk '{print$1}')
+
+              export EVTMGR_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $WAIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+              export EVTMGR_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $WAIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+
+              export TOPO_MGT_ROUTE="https://"$(oc get route -n $WAIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+
+              export LOGIN="$EVTMGR_REST_USR:$EVTMGR_REST_PWD"
+
+              echo "URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
+              echo "LOGIN: $LOGIN"
+
+
+              echo "---------------------------------------------------------------------------------"
+              echo " 📥 Create Application and Templates"
+              echo "---------------------------------------------------------------------------------"
+
+
+              export APP_ID=$(curl -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]| select( .keyIndexName == "robot-shop")|._id'| tail -1)
+              export TEMPLATE_ID=$(curl -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]| select( .name == "robot-shop-template")|._id'| tail -1)
+
+              echo "APP_ID: $APP_ID"
+              echo "TEMPLATE_ID: $TEMPLATE_ID"
+
+
+              if [[ $TEMPLATE_ID == "" ]];
+              then
+                curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
+                -u $LOGIN \
+                -H 'Content-Type: application/json' \
+                -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+                -d '  {
+
+                    "_correlationEnabled": "true",
+                    "iconId": "application",
+                    "vertexType": "group",
+                    "groupTokens": [
+                        "namespace:robot-shop"
+                    ],
+                    "correlatable": "true",
+                    "name": "robot-shop-template",
+                    "entityTypes": [
+                        "completeGroup",
+                        "namespace"
+                    ],
+                    "tags": [
+                        "robot-shop-template"
+                    ]
+                }'
+              else
+                echo "Template already exists"
+              fi
+
+              if [[ $APP_ID == "" ]];
+              then    
+                curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups" --insecure \
+                -u $LOGIN \
+                -H 'Content-Type: application/json' \
+                -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+                -d '  {
+                    "keyIndexName": "robot-shop",
+                    "_correlationEnabled": "true",
+                    "iconId": "application",
+                    "vertexType": "group",
+                    "correlatable": "true",
+                    "name": "robot-shop",
+                    "entityTypes": [
+                        "waiopsApplication"
+                    ]
+                }'
+              else
+                echo "Application already exists"
+              fi
+
+              echo "---------------------------------------------------------------------------------"
+              echo " 📥 Create Application Members"
+              echo "---------------------------------------------------------------------------------"
+
+              export WAIOPS_NAMESPACE=$(oc get po -A|grep aimanager-operator |awk '{print$1}')
+
+              export EVTMGR_REST_USR=$(oc get secret aiops-topology-asm-credentials -n $WAIOPS_NAMESPACE -o jsonpath='{.data.username}' | base64 --decode)
+              export EVTMGR_REST_PWD=$(oc get secret aiops-topology-asm-credentials -n $WAIOPS_NAMESPACE -o jsonpath='{.data.password}' | base64 --decode)
+
+              export TOPO_MGT_ROUTE="https://"$(oc get route -n $WAIOPS_NAMESPACE topology-manage -o jsonpath={.spec.host})
+
+              export LOGIN="$EVTMGR_REST_USR:$EVTMGR_REST_PWD"
+
+              echo "URL: $TOPO_MGT_ROUTE/1.0/rest-observer/rest/resources"
+              echo "LOGIN: $LOGIN"
+
+              export APP_ID=$(curl -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]| select( .keyIndexName == "robot-shop")|._id'| tail -1)
+              export TEMPLATE_ID=$(curl -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]| select( .name == "robot-shop-template")|._id'| tail -1)
+              export K8S_OBS_ID=$(curl -X "GET" "$TOPO_MGT_ROUTE/1.0/topology/groups?_field=*" --insecure -u $LOGIN -H 'Content-Type: application/json' -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255'|jq -r -c '._items[]| select( .keyIndexName == "robot-shop::kubernetes::namespace::robot-shop")|._id'| tail -1)
+
+              echo "APP_ID:     "$APP_ID
+              echo "TEMPLATE_ID:"$TEMPLATE_ID
+              echo "K8S_OBS_ID: "$K8S_OBS_ID
+          
+              # # -------------------------------------------------------------------------------------------------------------------------------------------------
+              # # CREATE EDGES
+              # # -------------------------------------------------------------------------------------------------------------------------------------------------
+              
+              curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID/members" --insecure \
+              -u $LOGIN \
+              -H 'Content-Type: application/json' \
+              -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+              -d "{
+                \"_id\": \"$K8S_OBS_ID\"
+              }"
+
+
+              curl -X "POST" "$TOPO_MGT_ROUTE/1.0/topology/groups/$APP_ID/members" --insecure \
+              -u $LOGIN \
+              -H 'Content-Type: application/json' \
+              -H 'X-TenantID: cfd95b7e-3bc7-4006-a4a8-a73a79c71255' \
+              -d "{
+                \"_id\": \"$TEMPLATE_ID\"
+              }"
+
+
+
+              echo "Added..."
+
+
+              echo "---------------------------------------------------------------------------------"
+              echo " ✅ DONE"
+              echo "---------------------------------------------------------------------------------"
+
+          
+      serviceAccountName: openshift-argocd-admin-ai
+      restartPolicy: Never
+  backoffLimit: 4
