@@ -30,5 +30,6 @@ spec:
       - SkipDryRunOnMissingResource=true
       #- FailOnSharedResource=true
       #- CreateNamespace=true
+      - ApplyOutOfSyncOnly=true
 
 {{- end }}
