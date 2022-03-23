@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 191-ai-patch-ingress
+  name: 900-ai-patch-ingress
   annotations:
-    argocd.argoproj.io/sync-wave: "191"
+    argocd.argoproj.io/sync-wave: "900"
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:
