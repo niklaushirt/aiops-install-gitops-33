@@ -1,0 +1,177 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: 900-wait-running-awx
+  annotations:
+    argocd.argoproj.io/sync-wave: "234"
+  namespace: awx
+spec:
+  template:
+    spec:
+      containers:
+        - name: config
+          image: quay.io/openshift/origin-cli:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "150m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -x
+
+              echo "---------------------------------------------------------------------------------"
+              echo " 📥 Initialize"
+              echo "---------------------------------------------------------------------------------"
+
+              export AWX_ROUTE=$(oc get route -n awx awx -o jsonpath={.spec.host})
+              export AWX_URL=$(echo "https://$AWX_ROUTE")
+              export ADMIN_PASSWORD=$(oc -n awx get secret awx-admin-password -o jsonpath='{.data.password}' | base64 --decode && echo)
+
+              export AWX_REPO=https://github.com/niklaushirt/ansible-demo
+
+              echo ""
+              echo ""
+              echo "*************************************************************************"
+              echo "*************************************************************************"
+              echo "   AWX URL:           $AWX_URL"
+              echo "   AWX User:          admin"
+              echo "   AWX Password:      $ADMIN_PASSWORD"
+              echo "*************************************************************************"
+              echo "*************************************************************************"
+
+              echo ""
+              echo ""
+              echo "---------------------------------------------------------------------------------"
+              echo " 📥 Create Project"
+              echo "---------------------------------------------------------------------------------"
+
+              export result=$(curl -X "POST" -s "$AWX_URL/api/v2/projects/" -u "admin:$ADMIN_PASSWORD" --insecure \
+              -H 'content-type: application/json' \
+              -d $"{
+                  \"name\": \"CP4WAIOPS Runbooks\",
+                  \"description\": \"CP4WAIOPS Runbooks\",
+                  \"local_path\": \"\",
+                  \"scm_type\": \"git\",
+                  \"scm_url\": \"'$AWX_REPO'\",
+                  \"scm_branch\": \"\",
+                  \"scm_refspec\": \"\",
+                  \"scm_clean\": false,
+                  \"scm_track_submodules\": false,
+                  \"scm_delete_on_update\": false,
+                  \"credential\": null,
+                  \"timeout\": 0,
+                  \"organization\": 1,
+                  \"scm_update_on_launch\": false,
+                  \"scm_update_cache_timeout\": 0,
+                  \"allow_override\": false,
+                  \"default_environment\": null
+              }")
+
+              if [[ $result =~ " already exists" ]];
+              then
+                  export PROJECT_ID=$(curl -X "GET" -s "$AWX_URL/api/v2/projects/" -u "admin:$ADMIN_PASSWORD" --insecure|jq -c '.results[]| select( .name == "CP4WAIOPS Runbooks")|.id')
+              else
+                  export PROJECT_ID=$(echo $result|jq ".id")
+              fi
+              #sleep 60
+              echo "Project ID: $PROJECT_ID"
+
+
+
+              echo ""
+              echo ""
+              echo "---------------------------------------------------------------------------------"
+              echo " 📥 Create Inventory"
+              echo "---------------------------------------------------------------------------------"
+
+              #sleep 60
+              export STATUS=$(curl -X "GET" -s "$AWX_URL/api/v2/projects/" -u "admin:$ADMIN_PASSWORD" --insecure|jq -c -r '.results[]| select( .name == "CP4WAIOPS Runbooks")|.status')
+              echo "$STATUS"
+
+
+
+              export result=$(curl -X "POST" -s "$AWX_URL/api/v2/inventories/" -u "admin:$ADMIN_PASSWORD" --insecure \
+              -H 'content-type: application/json' \
+              -d $"{
+                \"name\": \"CP4WAIOPS Runbooks\",
+                \"description\": \"CP4WAIOPS Runbooks\",
+                \"organization\": 1,
+                \"project\": '$AWX_PROJECT_ID',
+                \"kind\": \"\",
+                \"host_filter\": null,
+                \"variables\": \"\"
+              }")
+
+              if [[ $result =~ " already exists" ]];
+              then
+                  export INVENTORY_ID=$(curl -X "GET" -s "$AWX_URL/api/v2/inventories/" -u "admin:$ADMIN_PASSWORD" --insecure|jq -c '.results[]| select( .name == "CP4WAIOPS Runbooks")|.id')
+              else
+                  export INVENTORY_ID=$(echo $result|tr -d '\n'|jq ".id")
+                  sleep 15
+              fi
+              echo "Inventory ID: $INVENTORY_ID"
+
+
+
+              echo ""
+              echo ""
+              echo "---------------------------------------------------------------------------------"
+              echo " 📥 Create CP4WAIOPS Mitigate Robotshop Ratings Outage"
+              echo "---------------------------------------------------------------------------------"
+
+              export result=$(curl -X "POST" -s "$AWX_URL/api/v2/job_templates/" -u "admin:$ADMIN_PASSWORD" --insecure \
+              -H 'content-type: application/json' \
+              -d $"{
+                \"name\": \"CP4WAIOPS Mitigate Robotshop Ratings Outage\",
+                \"description\": \"Mitigate Robotshop Ratings Outage\",
+                \"job_type\": \"run\",
+                \"inventory\": $AWX_INVENTORY_ID,
+                \"project\": $AWX_PROJECT_ID,
+                \"playbook\": \"cp4waiops/robotshop-restart/start-ratings.yaml\",
+                \"scm_branch\": \"\",
+                \"extra_vars\": \"\",
+                \"ask_variables_on_launch\": true,
+                \"extra_vars\": \"PROVIDE: my_k8s_apiurl and my_k8s_apikey\"
+              }")
+
+              echo "RESULT: $result"
+
+
+              echo ""
+              echo ""
+              echo "---------------------------------------------------------------------------------"
+              echo " 📥 Create CP4WAIOPS Create Robotshop Ratings Outage"
+              echo "---------------------------------------------------------------------------------"
+
+              export result=$(curl -X "POST" -s "$AWX_URL/api/v2/job_templates/" -u "admin:$ADMIN_PASSWORD" --insecure \
+              -H 'content-type: application/json' \
+              -d $"{
+                \"name\": \"CP4WAIOPS Create Robotshop Ratings Outage\",
+                \"description\": \"Create Robotshop Ratings Outage\",
+                \"job_type\": \"run\",
+                \"inventory\": $AWX_INVENTORY_ID,
+                \"project\": $AWX_PROJECT_ID,
+                \"playbook\": \"cp4waiops/robotshop-restart/stop-ratings.yaml\",
+                \"scm_branch\": \"\",
+                \"extra_vars\": \"\",
+                \"ask_variables_on_launch\": true,
+                \"extra_vars\": \"PROVIDE: my_k8s_apiurl and my_k8s_apikey\"
+              }")
+
+              echo "RESULT: $result"
+
+
+              echo "---------------------------------------------------------------------------------"
+              echo " ✅ DONE"
+              echo "---------------------------------------------------------------------------------"
+
+          
+      serviceAccountName: openshift-argocd-admin-ai
+      restartPolicy: Never
+  backoffLimit: 4

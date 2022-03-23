@@ -233,9 +233,9 @@ spec:
             - name: LDAP_ORGANISATION
               value: "demo"
             - name: LDAP_DOMAIN
-              value: "{{.Values.ldapDomain}}"
+              value: "{{.Values.ldap.ldapDomain}}"
             - name: LDAP_ADMIN_PASSWORD
-              value: "{{.Values.ldapPassword}}"
+              value: "{{.Values.ldap.ldapPassword}}"
             - name: LDAP_REMOVE_CONFIG_AFTER_SETUP
               value: "false"
       volumes:

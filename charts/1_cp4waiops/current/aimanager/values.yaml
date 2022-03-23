@@ -57,3 +57,12 @@ spec:
     ##
     namespace: cp4waiops
 
+
+
+ldap:
+  ldapDomain: ibm.com
+  ldapBase: dc=ibm,dc=com
+
+  ldapPassword: P4ssw0rd!
+
+  aiManagerNamespace: cp4waiops
