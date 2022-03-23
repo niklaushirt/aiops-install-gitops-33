@@ -156,6 +156,5 @@ spec:
               echo "---------------------------------------------------------------------------------"
 
           
-      serviceAccountName: openshift-argocd-admin-ai
       restartPolicy: Never
   backoffLimit: 4
