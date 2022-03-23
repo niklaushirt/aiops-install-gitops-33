@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: 270-ai-training-create-log
   annotations:
-    argocd.argoproj.io/sync-wave: "270"
+    argocd.argoproj.io/sync-wave: "271"
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:

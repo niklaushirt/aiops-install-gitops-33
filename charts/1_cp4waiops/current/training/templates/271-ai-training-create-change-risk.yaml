@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 270-ai-training-create-metric
+  name: 270-ai-training-create-change-risk
   annotations:
-    argocd.argoproj.io/sync-wave: "270"
+    argocd.argoproj.io/sync-wave: "271"
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:
@@ -26,7 +26,7 @@ spec:
               set -x
 
               echo "---------------------------------------------------------------------------------"
-              QUERY_NAME=create-analysis-METRIC.graphql
+              QUERY_NAME=create-analysis-CR.graphql
               echo "---------------------------------------------------------------------------------"
 
 
