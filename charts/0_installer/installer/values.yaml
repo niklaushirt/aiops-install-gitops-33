@@ -2,6 +2,8 @@ core:
   aiManager:
     aiManagerInstall: false
     aiManagerPullToken: <PULL_TOKEN>
+    aiManagerTopology: false
+    aiManagerTraining: false
   eventManager:
     eventManagerInstall: false
     eventManagerPullToken: <PULL_TOKEN>
