@@ -1,21 +1,14 @@
-core:
-  aiManager:
+aiManager:
+  core:
     aiManagerInstall: false
     aiManagerPullToken: <PULL_TOKEN>
+  config:
     aiManagerTopology: false
     aiManagerTraining: false
-  eventManager:
-    eventManagerInstall: false
-    eventManagerPullToken: <PULL_TOKEN>
-addons:
-  LDAPInstall: false
-  RobotShopInstall: false  
-  CP4WAIOPSDemoUIInstall: false
 solutions:
   TurbonomicInstall: false
   HumioInstall: false
   HumioLicense: <HUMIO_LICENSE>
-  AWXInstall: false
   IstioInstall: false
   ELKInstall: false
 activeBranch: main

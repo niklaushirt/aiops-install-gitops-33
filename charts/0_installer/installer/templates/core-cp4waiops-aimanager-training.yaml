@@ -1,4 +1,4 @@
-{{- if .Values.core.aiManager.aiManagerTraining }}
+{{- if .Values.aiManager.config.aiManagerTraining }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:

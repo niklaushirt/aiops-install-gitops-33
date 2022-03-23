@@ -1,4 +1,4 @@
-{{- if .Values.core.aiManager.aiManagerTopology }}
+{{- if .Values.aiManager.config.aiManagerTopology }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -19,7 +19,7 @@ spec:
       parameters:
         - name: spec.dockerPassword
           value: >-
-            {{ .Values.core.aiManager.aiManagerPullToken }}
+            {{ .Values.aiManager.core.aiManagerPullToken }}
   project: default
   syncPolicy:
     automated:
