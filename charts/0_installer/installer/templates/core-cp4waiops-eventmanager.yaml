@@ -10,8 +10,8 @@ spec:
     namespace: cp4waiops-evtmgr
     server: 'https://kubernetes.default.svc'
   source:
-    path: charts/1_cp4waiops/v3.3/eventmanager
-    repoURL: 'https://github.com/niklaushirt/cp4waiops-demo-gitops'
+    path: charts/1_cp4waiops/current/eventmanager
+    repoURL: 'https://github.com/niklaushirt/aiops-install-gitops-33'
     targetRevision: 
     helm:
       valueFiles:
