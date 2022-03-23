@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: load
+  namespace: robot-shop
   annotations:
     argocd.argoproj.io/sync-wave: "225"
   labels:
@@ -46,6 +47,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: load
+  namespace: robot-shop
   annotations:
     argocd.argoproj.io/sync-wave: "225"
   namespace: robot-shop
