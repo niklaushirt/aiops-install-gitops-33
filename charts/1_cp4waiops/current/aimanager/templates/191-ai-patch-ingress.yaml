@@ -118,6 +118,22 @@ spec:
 
 
               echo "---------------------------------------------------------------------------------"
+              echo " ⏳ Wait for Slack Pod"
+              echo "---------------------------------------------------------------------------------"
+
+              while : ; do
+                READY=$(oc get po -n {{.Values.spec.aiManager.namespace}}|grep slack)
+                if [[ $READY  =~ 'slack-integrator' ]]; then
+                  echo '"Slack Pod" is not ready yet.'
+                  sleep 10s
+                else
+                  break
+                fi
+              done
+
+
+
+              echo "---------------------------------------------------------------------------------"
               echo " 🧻 Restart Slack Pod"
               echo "---------------------------------------------------------------------------------"
 
