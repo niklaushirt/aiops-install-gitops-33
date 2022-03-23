@@ -30,7 +30,7 @@ spec:
               oc create route passthrough topology-merge -n {{.Values.spec.aiManager.namespace}} --insecure-policy="Redirect" --service=aiops-topology-merge --port=https-merge-api || true
               oc create route passthrough topology-rest -n {{.Values.spec.aiManager.namespace}} --insecure-policy="Redirect" --service=aiops-topology-rest-observer --port=https-rest-observer-admin || true
               oc create route passthrough topology-manage -n {{.Values.spec.aiManager.namespace}} --service=evtmanager-topology-topology --port=https-topology-api || true
-              oc create route passthrough topology-file -n {{ WAIOPS_NAMESPACE }} --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-admin
+              oc create route passthrough topology-file -n {{.Values.spec.aiManager.namespace}} --insecure-policy="Redirect" --service=aiops-topology-file-observer --port=https-file-observer-admin
 
 
               echo "---------------------------------------------------------------------------------"
