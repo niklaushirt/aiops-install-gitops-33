@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 270-ai-training-create-similar-incidents
+  name: 271-ai-training-create-similar-incidents
   annotations:
     argocd.argoproj.io/sync-wave: "271"
   namespace: {{.Values.spec.aiManager.namespace}}
