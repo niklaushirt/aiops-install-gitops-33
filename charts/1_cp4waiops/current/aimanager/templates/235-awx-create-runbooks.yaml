@@ -75,12 +75,12 @@ spec:
 
               if [[ $result =~ " already exists" ]];
               then
-                  export PROJECT_ID=$(curl -X "GET" -s "$AWX_URL/api/v2/projects/" -u "admin:$ADMIN_PASSWORD" --insecure|jq -c '.results[]| select( .name == "CP4WAIOPS Runbooks")|.id')
+                  export AWX_PROJECT_ID=$(curl -X "GET" -s "$AWX_URL/api/v2/projects/" -u "admin:$ADMIN_PASSWORD" --insecure|jq -c '.results[]| select( .name == "CP4WAIOPS Runbooks")|.id')
               else
-                  export PROJECT_ID=$(echo $result|jq ".id")
+                  export AWX_PROJECT_ID=$(echo $result|jq ".id")
               fi
               #sleep 60
-              echo "Project ID: $PROJECT_ID"
+              echo "Project ID: $AWX_PROJECT_ID"
 
 
 
@@ -110,12 +110,12 @@ spec:
 
               if [[ $result =~ " already exists" ]];
               then
-                  export INVENTORY_ID=$(curl -X "GET" -s "$AWX_URL/api/v2/inventories/" -u "admin:$ADMIN_PASSWORD" --insecure|jq -c '.results[]| select( .name == "CP4WAIOPS Runbooks")|.id')
+                  export AWX_INVENTORY_ID=$(curl -X "GET" -s "$AWX_URL/api/v2/inventories/" -u "admin:$ADMIN_PASSWORD" --insecure|jq -c '.results[]| select( .name == "CP4WAIOPS Runbooks")|.id')
               else
-                  export INVENTORY_ID=$(echo $result|tr -d '\n'|jq ".id")
+                  export AWX_INVENTORY_ID=$(echo $result|tr -d '\n'|jq ".id")
                   sleep 15
               fi
-              echo "Inventory ID: $INVENTORY_ID"
+              echo "Inventory ID: $AWX_INVENTORY_ID"
 
 
 
