@@ -26,7 +26,15 @@ spec:
 
               #sleep 240
 
-
+              while : ; do
+                READY=$(oc get csv  -n  {{.Values.spec.aiManager.namespace}}|wc -l|tr -d ' ')
+                if [[ $READY  -lt 3 ]]; then
+                  echo '"AIOps Operator" is not ready yet.'
+                  sleep 10s
+                else
+                  break
+                fi
+              done
 
               while : ; do
                 READY=$(oc get csv  -n {{.Values.spec.aiManager.namespace}})
