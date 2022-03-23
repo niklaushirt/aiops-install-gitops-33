@@ -1,0 +1,74 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: 190-ai-wait-aimanager
+  annotations:
+    argocd.argoproj.io/sync-wave: "190"
+  namespace: {{.Values.spec.aiManager.namespace}}
+spec:
+  template:
+    spec:
+      containers:
+        - name: config
+          image: quay.io/openshift/origin-cli:latest
+          imagePullPolicy: IfNotPresent
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "150m"
+            limits:
+              memory: "256Mi"
+              cpu: "200m"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              set -x
+
+              echo "---------------------------------------------------------------------------------"
+              echo " 🕦 Wait for AI Manager namespace having more than 115 Pods"
+              echo "---------------------------------------------------------------------------------"
+
+              while : ; do
+                READY=$(oc get po -n {{.Values.spec.aiManager.namespace}} | wc -l)
+                if [[  $READY  -lt '115' ]]; then
+                  echo ' ⏳ Deployment not completed yet: $READY'
+                  sleep 30
+                else
+                  break
+                fi
+              done
+          
+              echo "---------------------------------------------------------------------------------"
+              echo " 🕦 Wait for AI Manager being running"
+              echo "---------------------------------------------------------------------------------"
+
+              while : ; do
+                READY=$(oc get po -n {{.Values.spec.aiManager.namespace}} | grep -v Running |grep -v Completed|grep -v Error |grep -v zen-tour-job| wc -l| tr -d ' ')
+                if [[  $READY  -lt '2' ]]; then
+                  echo ' ⏳ Deployment not completed yet: $READY'
+                  sleep 30
+                else
+                  break
+                fi
+              done
+
+              echo "---------------------------------------------------------------------------------"
+              echo " 🕦 Wait for AI Manager being ready"
+              echo "---------------------------------------------------------------------------------"
+
+              while : ; do
+                READY=$(oc get po -n {{.Values.spec.aiManager.namespace}} | grep -v Completed | grep -v Error |grep "0/" |wc -l| tr -d ' ')
+                if [[  $READY  -lt '2' ]]; then
+                  echo ' ⏳ Deployment not completed yet: $READY'
+                  sleep 30
+                else
+                  break
+                fi
+              done
+
+
+
+      restartPolicy: Never
+      serviceAccountName: openshift-argocd-admin-ai
+  backoffLimit: 4
