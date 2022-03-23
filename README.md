@@ -1,4 +1,4 @@
-<center> <h1>CP4WatsonAIOps V3.2</h1> </center>
+<center> <h1>CP4WatsonAIOps Vv3.3</h1> </center>
 <center> <h2>Demo Environment Installation with OpenShift GitOps/ARGOCD</h2> </center>
 
 ![K8s CNI](./doc/pics/front.png)
@@ -74,7 +74,7 @@ This is provided `as-is`:
 * It clearly can be improved
 
 
-**❗This has been tested for the new CP4WAIOPS 3.2 release on OpenShift 4.8.**
+**❗This has been tested for the new CP4WAIOPS v3.3 release on OpenShift 4.8.**
 
 **❗ Then EventManager/NOI-->AI Manager Gateway is not working yet on ROKS**
 
@@ -93,7 +93,7 @@ So please if you have any feedback contact me
 The installations are packaged as Helm Charts.
 They reside in the ./charts directory.
 
-> For example the `./charts/1_cp4waiops/3.2/aimanager/` directory contains the helm chart for CP4WAIOPS `AI Manager`.
+> For example the `./charts/1_cp4waiops/v3.3/aimanager/` directory contains the helm chart for CP4WAIOPS `AI Manager`.
 
 
 ### Openshift GitOps
@@ -163,7 +163,7 @@ spec:
     namespace: cp4waiops
     server: 'https://kubernetes.default.svc'
   source:
-    path: charts/cp4waiops/3.2/aimanager
+    path: charts/cp4waiops/v3.3/aimanager
     repoURL: 'https://github.com/niklaushirt/cp4waiops-demo-gitops'
     targetRevision: HEAD
     helm:
@@ -214,7 +214,7 @@ Clone the GitHub Repository
 
 
 ```
-git clone https://github.com/niklaushirt/cp4waiops-demo-gitops.git --branch 3.2-stable 
+git clone https://github.com/niklaushirt/cp4waiops-demo-gitops.git --branch v3.3-stable 
 ```
 
 
@@ -436,7 +436,7 @@ And obviosuly you'll need to download this repository to use the scripts.
 
 
 ```
-git clone https://github.com/niklaushirt/cp4waiops-demo-gitops.git --branch 3.2-stable 
+git clone https://github.com/niklaushirt/cp4waiops-demo-gitops.git --branch v3.3-stable 
 ```
 
 You can create your GIT token [here](https://github.ibm.com/settings/tokens).
@@ -495,7 +495,7 @@ In both cases use the login credentials from the install script.
 
 ### 3.1.1 Adapt configuration
 
-If needed, adapt the `./charts/1_cp4waiops/3.2/aimanager/values.yaml` file with the desired parameters:
+If needed, adapt the `./charts/1_cp4waiops/v3.3/aimanager/values.yaml` file with the desired parameters:
 
 
 
