@@ -6,6 +6,8 @@ aiManager:
     aiManagerTopology: false
     aiManagerTraining: false
     aiManagerAWX: false
+    aiManagerRobotShop: false
+    aiManagerLDAP: false
 solutions:
   TurbonomicInstall: false
   HumioInstall: false
