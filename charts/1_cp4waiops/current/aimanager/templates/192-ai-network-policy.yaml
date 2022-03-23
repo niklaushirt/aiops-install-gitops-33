@@ -2,9 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 910-argo-cp4waiops-configure-aiops-network-policy
+  name: 192-ai-network-policy
   annotations:
-    argocd.argoproj.io/sync-wave: "910"
+    argocd.argoproj.io/sync-wave: "192"
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:
@@ -26,6 +26,11 @@ spec:
             - |
               set -eo pipefail
               set -x
+
+              echo "---------------------------------------------------------------------------------"
+              echo " 💊 Patching Network Policy" 
+              echo "---------------------------------------------------------------------------------"
+
 
               default_policy=$(oc get namespace default -o jsonpath={.metadata.labels.'network\.openshift\.io/policy-group'}) \
               || {

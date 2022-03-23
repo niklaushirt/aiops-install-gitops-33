@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 120-argo-cp4waiops-wait-csv
+  name: 120-ai-wait_csv
   annotations:
     argocd.argoproj.io/sync-wave: "120"
   namespace: {{.Values.spec.aiManager.namespace}}
@@ -27,7 +27,6 @@ spec:
               echo "---------------------------------------------------------------------------------"
               echo " ⏳ Wait for CSVs being ready"
               echo "---------------------------------------------------------------------------------"
-
 
               while : ; do
                 READY=$(oc get csv  -n  {{.Values.spec.aiManager.namespace}}|wc -l|tr -d ' ')

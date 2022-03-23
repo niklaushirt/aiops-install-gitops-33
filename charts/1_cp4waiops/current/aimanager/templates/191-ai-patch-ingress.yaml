@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 910-ai-patch-ingress
+  name: 191-ai-patch-ingress
   annotations:
-    argocd.argoproj.io/sync-wave: "910"
+    argocd.argoproj.io/sync-wave: "191"
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:
@@ -25,12 +25,9 @@ spec:
             - |
               set -x
 
-
-
-              echo "   --------------------------------------------------------------------------------------------"
-              echo "    🚀  Patching Network Policy" 
-              echo "   --------------------------------------------------------------------------------------------"
-
+              echo "---------------------------------------------------------------------------------"
+              echo " 💊 Patching Network Policy" 
+              echo "---------------------------------------------------------------------------------"
 
               cat <<EOF | oc apply -f -
               apiVersion: networking.k8s.io/v1
@@ -51,10 +48,10 @@ spec:
                 - Ingress
               EOF
 
-              echo "   --------------------------------------------------------------------------------------------"
-              echo "    🚀  Patching Certs, new method" 
-              echo "   --------------------------------------------------------------------------------------------"
 
+              echo "---------------------------------------------------------------------------------"
+              echo " 💊 Patching AutomationUIConfig"
+              echo "---------------------------------------------------------------------------------"
 
               oc project {{.Values.spec.aiManager.namespace}}
               NAMESPACE={{.Values.spec.aiManager.namespace}}
@@ -95,9 +92,10 @@ spec:
               fi
 
 
-              echo "   --------------------------------------------------------------------------------------------"
-              echo "    🚀  Patching Certs, old method first" 
-              echo "   --------------------------------------------------------------------------------------------"
+
+              echo "---------------------------------------------------------------------------------"
+              echo " 💊 Patching NGINX Certs"
+              echo "---------------------------------------------------------------------------------"
 
               ingress_pod=$(oc get secrets -n openshift-ingress | grep tls | grep -v router-metrics-certs-default | awk '{print $1}')
               oc get secret -n openshift-ingress ${ingress_pod} -o jsonpath='{.data.tls\.crt}'  | base64 -d > /tmp/cert.crt
@@ -117,6 +115,11 @@ spec:
                   NGINX_READY=$(oc get pod -n {{.Values.spec.aiManager.namespace}} | grep "ibm-nginx" | grep "0/1" || true) 
                   echo "      ⭕ Nginx not ready. Waiting for 10 seconds...." && sleep 10; 
               done
+
+
+              echo "---------------------------------------------------------------------------------"
+              echo " 🧻 Restart Slack Pod"
+              echo "---------------------------------------------------------------------------------"
 
               oc delete pod $(oc get po -n {{.Values.spec.aiManager.namespace}}|grep slack|awk '{print$1}') -n {{.Values.spec.aiManager.namespace}} --grace-period 0 --force
 

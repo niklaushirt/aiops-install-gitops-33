@@ -1,9 +1,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 200-argo-cp4waiops-create-demo-user
+  name: 150-ai-create-demo-user
   annotations:
-    argocd.argoproj.io/sync-wave: "200"
+    argocd.argoproj.io/sync-wave: "150"
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:
