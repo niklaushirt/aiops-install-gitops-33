@@ -24,7 +24,10 @@ spec:
             - -c
             - |
 
-              #sleep 240
+              echo "---------------------------------------------------------------------------------"
+              echo " ⏳ Wait for CSVs being ready"
+              echo "---------------------------------------------------------------------------------"
+
 
               while : ; do
                 READY=$(oc get csv  -n  {{.Values.spec.aiManager.namespace}}|wc -l|tr -d ' ')
