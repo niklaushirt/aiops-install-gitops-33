@@ -5,6 +5,7 @@ aiManager:
   config:
     aiManagerTopology: false
     aiManagerTraining: false
+    aiManagerAWX: false
 solutions:
   TurbonomicInstall: false
   HumioInstall: false
