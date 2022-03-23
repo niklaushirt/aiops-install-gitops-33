@@ -7,7 +7,6 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "272"
 spec:
-  serviceAccountName: demo-admin
   template:
     spec:
       containers:
