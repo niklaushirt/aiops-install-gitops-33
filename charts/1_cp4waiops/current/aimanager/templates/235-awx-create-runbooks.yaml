@@ -53,25 +53,25 @@ spec:
 
               export result=$(curl -X "POST" -s "$AWX_URL/api/v2/projects/" -u "admin:$ADMIN_PASSWORD" --insecure \
               -H 'content-type: application/json' \
-              -d $"{
-                  \"name\": \"CP4WAIOPS Runbooks\",
-                  \"description\": \"CP4WAIOPS Runbooks\",
-                  \"local_path\": \"\",
-                  \"scm_type\": \"git\",
-                  \"scm_url\": \"$AWX_REPO\",
-                  \"scm_branch\": \"\",
-                  \"scm_refspec\": \"\",
-                  \"scm_clean\": false,
-                  \"scm_track_submodules\": false,
-                  \"scm_delete_on_update\": false,
-                  \"credential\": null,
-                  \"timeout\": 0,
-                  \"organization\": 1,
-                  \"scm_update_on_launch\": false,
-                  \"scm_update_cache_timeout\": 0,
-                  \"allow_override\": false,
-                  \"default_environment\": null
-              }")
+              -d $'{
+                  "name": "CP4WAIOPS Runbooks",
+                  "description": "CP4WAIOPS Runbooks",
+                  "local_path": "",
+                  "scm_type": "git",
+                  "scm_url": "'$AWX_REPO'",
+                  "scm_branch": "",
+                  "scm_refspec": "",
+                  "scm_clean": false,
+                  "scm_track_submodules": false,
+                  "scm_delete_on_update": false,
+                  "credential": null,
+                  "timeout": 0,
+                  "organization": 1,
+                  "scm_update_on_launch": false,
+                  "scm_update_cache_timeout": 0,
+                  "allow_override": false,
+                  "default_environment": null
+              }')
 
               if [[ $result =~ " already exists" ]];
               then
@@ -98,15 +98,15 @@ spec:
 
               export result=$(curl -X "POST" -s "$AWX_URL/api/v2/inventories/" -u "admin:$ADMIN_PASSWORD" --insecure \
               -H 'content-type: application/json' \
-              -d $"{
-                \"name\": \"CP4WAIOPS Runbooks\",
-                \"description\": \"CP4WAIOPS Runbooks\",
-                \"organization\": 1,
-                \"project\": $AWX_PROJECT_ID,
-                \"kind\": \"\",
-                \"host_filter\": null,
-                \"variables\": \"\"
-              }")
+              -d $'{
+                "name": "CP4WAIOPS Runbooks",
+                "description": "CP4WAIOPS Runbooks",
+                "organization": 1,
+                "project": '$AWX_PROJECT_ID',
+                "kind": "",
+                "host_filter": null,
+                "variables": ""
+              }')
 
               if [[ $result =~ " already exists" ]];
               then
@@ -127,18 +127,18 @@ spec:
 
               export result=$(curl -X "POST" -s "$AWX_URL/api/v2/job_templates/" -u "admin:$ADMIN_PASSWORD" --insecure \
               -H 'content-type: application/json' \
-              -d $"{
-                \"name\": \"CP4WAIOPS Mitigate Robotshop Ratings Outage\",
-                \"description\": \"Mitigate Robotshop Ratings Outage\",
-                \"job_type\": \"run\",
-                \"inventory\": $AWX_INVENTORY_ID,
-                \"project\": $AWX_PROJECT_ID,
-                \"playbook\": \"cp4waiops/robotshop-restart/start-ratings.yaml\",
-                \"scm_branch\": \"\",
-                \"extra_vars\": \"\",
-                \"ask_variables_on_launch\": true,
-                \"extra_vars\": \"PROVIDE: my_k8s_apiurl and my_k8s_apikey\"
-              }")
+              -d $'{
+                "name": "CP4WAIOPS Mitigate Robotshop Ratings Outage",
+                "description": "Mitigate Robotshop Ratings Outage",
+                "job_type": "run",
+                "inventory": '$AWX_INVENTORY_ID',
+                "project": '$AWX_PROJECT_ID',
+                "playbook": "cp4waiops/robotshop-restart/start-ratings.yaml",
+                "scm_branch": "",
+                "extra_vars": "",
+                "ask_variables_on_launch": true,
+                "extra_vars": "PROVIDE: my_k8s_apiurl and my_k8s_apikey"
+              }')
 
               echo "RESULT: $result"
 
@@ -151,18 +151,18 @@ spec:
 
               export result=$(curl -X "POST" -s "$AWX_URL/api/v2/job_templates/" -u "admin:$ADMIN_PASSWORD" --insecure \
               -H 'content-type: application/json' \
-              -d $"{
-                \"name\": \"CP4WAIOPS Create Robotshop Ratings Outage\",
-                \"description\": \"Create Robotshop Ratings Outage\",
-                \"job_type\": \"run\",
-                \"inventory\": $AWX_INVENTORY_ID,
-                \"project\": $AWX_PROJECT_ID,
-                \"playbook\": \"cp4waiops/robotshop-restart/stop-ratings.yaml\",
-                \"scm_branch\": \"\",
-                \"extra_vars\": \"\",
-                \"ask_variables_on_launch\": true,
-                \"extra_vars\": \"PROVIDE: my_k8s_apiurl and my_k8s_apikey\"
-              }")
+              -d $'{
+                "name": "CP4WAIOPS Create Robotshop Ratings Outage",
+                "description": "Create Robotshop Ratings Outage",
+                "job_type": "run",
+                "inventory": '$AWX_INVENTORY_ID',
+                "project": '$AWX_PROJECT_ID',
+                "playbook": "cp4waiops/robotshop-restart/stop-ratings.yaml",
+                "scm_branch": "",
+                "extra_vars": "",
+                "ask_variables_on_launch": true,
+                "extra_vars": "PROVIDE: my_k8s_apiurl and my_k8s_apikey"
+              }')
 
               echo "RESULT: $result"
 
