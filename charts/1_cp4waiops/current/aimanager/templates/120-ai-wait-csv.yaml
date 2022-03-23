@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 120-ai-wait_csv
+  name: 120-ai-wait-csv
   annotations:
     argocd.argoproj.io/sync-wave: "120"
   namespace: {{.Values.spec.aiManager.namespace}}
@@ -38,15 +38,6 @@ spec:
                 fi
               done
 
-              while : ; do
-                READY=$(oc get csv  -n {{.Values.spec.aiManager.namespace}})
-                if [[ $READY  =~ 'Installing' ]]; then
-                  echo '"AIOps Operator" is not ready yet.'
-                  sleep 10s
-                else
-                  break
-                fi
-              done
 
 
       restartPolicy: Never
