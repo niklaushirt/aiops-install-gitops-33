@@ -32,7 +32,7 @@ spec:
               while : ; do
                 READY=$(oc get csv  -n  {{.Values.spec.aiManager.namespace}}| grep Succeeded|wc -l|tr -d ' ')
                 if [[ $READY  -lt 10 ]]; then
-                  echo '"AIOps Operator" is not ready yet.'
+                  echo '"AIOps Operator" is not ready yet. $READY<10'
                   sleep 10s
                 else
                   break
