@@ -24,7 +24,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -x
+              
 
               while : ; do
                 READY=$(oc get po -n default | grep ldap)

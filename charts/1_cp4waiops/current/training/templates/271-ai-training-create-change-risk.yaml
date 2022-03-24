@@ -23,7 +23,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -x
+              
 
               echo "---------------------------------------------------------------------------------"
               QUERY_NAME=create-analysis-CR.graphql

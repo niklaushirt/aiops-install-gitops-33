@@ -25,7 +25,7 @@ spec:
             - -c
             - |
               #!/bin/bash
-              set -x
+              
               export AWX_REPO=https://github.com/niklaushirt/awx-waiops-trainingdata.git
               git clone $AWX_REPO
               cd awx-waiops-trainingdata

@@ -23,6 +23,7 @@ spec:
             - /bin/sh
             - -c
             - |
+            
 
               echo "---------------------------------------------------------------------------------"
               echo " 🕦 Wait for AI Manager namespace having more than 115 Pods"

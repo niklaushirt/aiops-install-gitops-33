@@ -24,7 +24,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -x
+              
 
               CLUSTER_ROUTE=$(oc get routes console -n openshift-console | tail -n 1 2>&1 ) 
               CLUSTER_FQDN=$( echo $CLUSTER_ROUTE | awk '{print $2}')

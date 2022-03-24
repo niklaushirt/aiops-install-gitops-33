@@ -24,7 +24,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -x
+              
 
               while : ; do
                 READY=$(oc get po -n openshift-operators | grep -v Completed | grep -v Error |grep "0/" |wc -l| tr -d ' ')

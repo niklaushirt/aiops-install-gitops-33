@@ -25,7 +25,7 @@ spec:
             - -c
             - |
               set -eo pipefail
-              set -x
+              
 
               echo "---------------------------------------------------------------------------------"
               echo " 💊 Patching Network Policy" 

@@ -23,7 +23,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -x
+              
 
               oc delete pods $(oc get pod -n {{.Values.spec.aiManager.namespace}} --no-headers| grep -v "1/1\|2/2\|3/3\|4/4"| grep -v "Completed"|awk '{print$1}') -n {{.Values.spec.aiManager.namespace}} || true
 

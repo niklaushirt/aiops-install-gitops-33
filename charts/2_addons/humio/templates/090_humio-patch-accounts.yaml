@@ -24,7 +24,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -x
+              
 
               oc adm policy add-scc-to-user privileged -n humio-logging -z humio-operator || true
               oc adm policy add-scc-to-user privileged -n humio-logging -z humiocluster-humio || true

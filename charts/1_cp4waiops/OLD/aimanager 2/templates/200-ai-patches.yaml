@@ -23,7 +23,7 @@ spec:
             - /bin/sh
             - -c
             - |
-              set -x
+              
               oc patch namespace default --type=json -p '[{"op":"add","path":"/metadata/labels","value":{"network.openshift.io/policy-group":"ingress"}}]'
 
 
