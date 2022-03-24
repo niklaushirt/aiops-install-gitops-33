@@ -1,8 +1,8 @@
-{{- if .Values.aiManager.core.aiManagerInstall }}
+{{- if .Values.aiManager.core.aiManagerInstallOperator }}
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: cp4waiops-aimanager
+  name: cp4waiops-aimanageroperator
   namespace: openshift-gitops
 spec:
   destination:
@@ -10,7 +10,7 @@ spec:
     namespace: cp4waiops
     server: 'https://kubernetes.default.svc'
   source:
-    path: charts/1_cp4waiops/current/aimanager
+    path: charts/1_cp4waiops/current/aimanageroperator
     repoURL: 'https://github.com/niklaushirt/aiops-install-gitops-33'
     targetRevision: 
     helm:

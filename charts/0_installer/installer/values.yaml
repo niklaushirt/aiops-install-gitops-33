@@ -1,6 +1,7 @@
 aiManager:
   core:
-    aiManagerInstall: false
+    aiManagerInstallOperator: false
+    aiManagerInstallInstance: false
     aiManagerPullToken: <PULL_TOKEN>
   config:
     aiManagerTopology: false
