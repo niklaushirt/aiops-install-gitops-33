@@ -24,19 +24,23 @@ spec:
             - -c
             - |
 
+
               echo "---------------------------------------------------------------------------------"
               echo " ⏳ Wait for CSVs being ready"
               echo "---------------------------------------------------------------------------------"
 
               while : ; do
-                READY=$(oc get csv  -n  {{.Values.spec.aiManager.namespace}}|wc -l|tr -d ' ')
-                if [[ $READY  -lt 3 ]]; then
+                READY=$(oc get csv  -n  {{.Values.spec.aiManager.namespace}}| grep Succeeded|wc -l|tr -d ' ')
+                if [[ $READY  -lt 10 ]]; then
                   echo '"AIOps Operator" is not ready yet.'
                   sleep 10s
                 else
                   break
                 fi
               done
+
+
+
 
 
 
