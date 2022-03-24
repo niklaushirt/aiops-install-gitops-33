@@ -16,7 +16,7 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-  project: cp4waiops
+  project: default
   syncPolicy:
     automated:
       prune: true

@@ -20,7 +20,7 @@ spec:
         - name: spec.dockerPassword
           value: >-
             {{ .Values.aiManager.core.aiManagerPullToken }}
-  project: cp4waiops
+  project: default
   syncPolicy:
     automated:
       prune: true

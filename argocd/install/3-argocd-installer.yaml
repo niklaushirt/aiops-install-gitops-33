@@ -19,7 +19,7 @@ metadata:
   name: installer
   namespace: argocd
 spec:
-  project: cp4waiops
+  project: default
   source:
     repoURL: 'https://github.com/niklaushirt/aiops-install-gitops-33'
     path: charts/0_installer/installer
