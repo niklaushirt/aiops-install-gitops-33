@@ -48,47 +48,6 @@ echo ""
 
 
 
-echo "***************************************************************************************************************************************************"
-echo "  "
-echo "  🚀 Starting installation"
-echo "  "
-echo "***************************************************************************************************************************************************"
-
-
-echo "  "
-echo "***************************************************************************************************************************************************"
-echo "  📥 Create Openshift GitOps Operator"
-oc apply -n openshift-operators -f ./argocd/install/1-argocd_sub.yaml
-
-
-while : ; do
-    READY=$(oc get ClusterServiceVersion -n openshift-operators || true) 
-    if [[ ! $READY  =~ "Succeeded" ]]; then
-        echo "   🕦 Openshift GitOps Operator is not ready. Waiting for 10 seconds...." && sleep 10; 
-    else
-        echo "      ✅ OK"
-        break
-    fi
-done
-
-echo "  "
-echo "***************************************************************************************************************************************************"
-echo "  📥 Create Openshift GitOps Instance"
-oc create clusterrolebinding argocd-admin --clusterrole=cluster-admin --serviceaccount=openshift-gitops:openshift-gitops-argocd-application-controller
-#oc create clusterrolebinding default-admin --clusterrole=cluster-admin --serviceaccount=cp4waiops:default
-oc apply -n  openshift-gitops -f ./argocd/install/2-argocd_install.yaml
-
-
-while : ; do
-    READY=$(oc get ArgoCD -n openshift-gitops openshift-gitops -o jsonpath={.status}|| true) 
-    if [[ ! $READY  =~ '"server":"Running"' ]]; then
-        echo "   🕦 Openshift GitOps Instance is not ready. Waiting for 10 seconds...." && sleep 10; 
-    else
-        echo "      ✅ OK"
-        break
-    fi
-done
-
 echo "  "
 export actBranch=$(git branch | tr -d '* ')
 echo "--------------------------------------------------------------------------------------------------------------------------------"
@@ -113,9 +72,6 @@ echo "  📥 Create Installer GitRepository in ArgoCD"
 export ARGOCD_URL=$(oc get route -n  openshift-gitops  openshift-gitops-server -o jsonpath={.spec.host})
 export ARGOCD_USER=admin
 export ARGOCD_PWD=$(oc get secret -n openshift-gitops openshift-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
-argocd login $ARGOCD_URL --insecure --username $ARGOCD_USER --password $ARGOCD_PWD
-argocd repo add https://github.com/niklaushirt/aiops-install-gitops-33  --name cp4waiops-repo
-
 echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
 echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
 echo "    🚀 Connect to OpenShift GitOps to check your deployments"
@@ -132,6 +88,9 @@ echo "  "
 echo "        🧔 User:       $ARGOCD_USER"
 echo "        🔐 Password:   $ARGOCD_PWD"
 echo "  "
+
+argocd login $ARGOCD_URL --insecure --username $ARGOCD_USER --password $ARGOCD_PWD
+argocd repo add https://github.com/niklaushirt/aiops-install-gitops-33  --name cp4waiops-repo
 
 
 

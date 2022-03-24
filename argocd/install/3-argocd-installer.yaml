@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: AppProject
 metadata:
   name: cp4waiops
-  namespace: argocd
+  namespace: openshift-gitops
 spec:
   clusterResourceWhitelist:
     - group: '*'
@@ -17,7 +17,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: installer
-  namespace: argocd
+  namespace: openshift-gitops
 spec:
   project: default
   source:

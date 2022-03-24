@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: cp4waiops-aimanager
-  namespace: argocd
+  namespace: openshift-gitops
 spec:
   destination:
     name: ''
@@ -10,7 +10,7 @@ spec:
     server: 'https://kubernetes.default.svc'
   source:
     path: charts/1_cp4waiops/v3.3/aimanager
-    repoURL: 'https://github.com/niklaushirt/cp4waiops-demo-gitops'
+    repoURL: 'https://github.com/niklaushirt/aiops-install-gitops-33 '
     targetRevision: 
     helm:
       valueFiles:
