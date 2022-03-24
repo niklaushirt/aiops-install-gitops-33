@@ -76,8 +76,10 @@ echo "**************************************************************************
 echo "  📥 Create ArgoCD Instance"
 oc create clusterrolebinding argocd-admin --clusterrole=cluster-admin --serviceaccount=argocd:argocd-argocd-application-controller
 #oc create clusterrolebinding default-admin --clusterrole=cluster-admin --serviceaccount=cp4waiops:default
-oc apply -n  argocd -f ./argocd/install/2-argocd_install.yaml
+oc create clusterrolebinding argocd-gitops-argocd-server-admin --clusterrole=cluster-admin --serviceaccount=argocd:argocd-gitops-argocd-server
 
+
+oc apply -n  argocd -f ./argocd/install/2-argocd_install.yaml
 
 while : ; do
     READY=$(oc get ArgoCD -n argocd argocd-gitops    -o jsonpath={.status}|| true) 
