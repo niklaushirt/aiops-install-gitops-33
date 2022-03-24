@@ -33,4 +33,7 @@ spec:
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: cp4waiops
-
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

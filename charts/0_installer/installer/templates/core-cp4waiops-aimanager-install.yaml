@@ -28,7 +28,7 @@ spec:
     syncOptions:
       - Validate=false
       - SkipDryRunOnMissingResource=true
-      - FailOnSharedResource=true
+      #- FailOnSharedResource=true
       #- CreateNamespace=true
       - ApplyOutOfSyncOnly=true
 
