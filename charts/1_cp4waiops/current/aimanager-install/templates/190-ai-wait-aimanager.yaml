@@ -32,7 +32,7 @@ spec:
               while : ; do
                 READY=$(oc get po -n {{.Values.spec.aiManager.namespace}} | wc -l)
                 if [[  $READY  -lt '115' ]]; then
-                  echo ' ⏳ Deployment not completed yet: $READY'
+                  echo " ⏳ Deployment not completed yet: $READY"
                   sleep 30
                 else
                   break
@@ -46,7 +46,7 @@ spec:
               while : ; do
                 READY=$(oc get po -n {{.Values.spec.aiManager.namespace}} | grep -v Running |grep -v Completed|grep -v Error |grep -v zen-tour-job| wc -l| tr -d ' ')
                 if [[  $READY  -lt '2' ]]; then
-                  echo ' ⏳ Deployment not completed yet: $READY'
+                  echo " ⏳ Deployment not completed yet: $READY"
                   sleep 30
                 else
                   break
@@ -60,7 +60,7 @@ spec:
               while : ; do
                 READY=$(oc get po -n {{.Values.spec.aiManager.namespace}} | grep -v Completed | grep -v Error |grep "0/" |wc -l| tr -d ' ')
                 if [[  $READY  -lt '2' ]]; then
-                  echo ' ⏳ Deployment not completed yet: $READY'
+                  echo " ⏳ Deployment not completed yet: $READY"
                   sleep 30
                 else
                   break
