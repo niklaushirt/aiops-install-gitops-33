@@ -73,5 +73,5 @@ echo "**************************************************************************
 echo "  📥 Create Application in ArgoCD"
 oc create clusterrolebinding default-turbo-admin --clusterrole=cluster-admin --serviceaccount=turbonomic:default
 
-oc apply -n openshift-gitops -f ./argocd/applications/argocd-solutions-turbonomic.yaml
+oc apply -n argocd -f ./argocd/applications/argocd-solutions-turbonomic.yaml
 

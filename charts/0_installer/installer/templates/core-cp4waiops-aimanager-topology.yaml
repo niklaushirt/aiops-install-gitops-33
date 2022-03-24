@@ -3,7 +3,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: cp4waiops-aimanager-topology
-  namespace: openshift-gitops
+  namespace: argocd
 spec:
   destination:
     name: ''
@@ -16,11 +16,7 @@ spec:
     helm:
       valueFiles:
         - values.yaml
-      parameters:
-        - name: spec.dockerPassword
-          value: >-
-            {{ .Values.aiManager.core.aiManagerPullToken }}
-  project: default
+  project: cp4waiops
   syncPolicy:
     automated:
       prune: true

@@ -71,5 +71,5 @@ echo "**************************************************************************
 echo "  "
 echo "***************************************************************************************************************************************************"
 echo "  📥 Create Application in ArgoCD"
-oc apply -n openshift-gitops -f ./argocd/applications/argocd-solutions-istio.yaml
+oc apply -n argocd -f ./argocd/applications/argocd-solutions-istio.yaml
 

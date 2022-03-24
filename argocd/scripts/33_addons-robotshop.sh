@@ -75,6 +75,6 @@ echo "  "
 echo "***************************************************************************************************************************************************"
 echo "  📥 Create RobotShop Application in ArgoCD"
 oc create clusterrolebinding default-robotinfo1-admin --clusterrole=cluster-admin --serviceaccount=robot-shop:default
-oc apply -n openshift-gitops -f ./argocd/applications/argocd-addons-robot-shop.yaml
+oc apply -n argocd -f ./argocd/applications/argocd-addons-robot-shop.yaml
 
 oc create clusterrolebinding default-robotinfo1-admin --clusterrole=cluster-admin --serviceaccount=default:default

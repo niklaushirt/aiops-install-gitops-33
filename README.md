@@ -156,7 +156,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: cp4waiops-aimanager
-  namespace: openshift-gitops
+  namespace: argocd
 spec:
   destination:
     name: ''

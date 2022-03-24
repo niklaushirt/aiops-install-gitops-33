@@ -45,7 +45,7 @@ echo "**************************************************************************
 
 export ARGOCD_SERVER=$(oc get route -n  openshift-gitops  openshift-gitops-server -o jsonpath={.spec.host})
 export ARGOCD_USER="admin"
-export ARGOCD_PWD=$(oc get secret -n openshift-gitops openshift-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
+export ARGOCD_PWD=$(oc get secret -n argocd openshift-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
 
 
 
@@ -69,7 +69,7 @@ echo ""
 echo "           🌏 URL:      https://$(oc get route -n  openshift-gitops  openshift-gitops-server -o jsonpath={.spec.host})"
 echo "  "
 echo "           🧔 User:       admin"
-echo "           🔐 Password:   "$(oc get secret -n openshift-gitops openshift-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
+echo "           🔐 Password:   "$(oc get secret -n argocd openshift-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
 echo "***************************************************************************************************************************************************"
 echo ""
 echo ""

@@ -78,7 +78,7 @@ echo "  "
 echo "                🌏 URL:      https://$(oc get route -n  openshift-gitops  openshift-gitops-server -o jsonpath={.spec.host})"
 echo "  "
 echo "                🧔 User:       admin"
-echo "                🔐 Password:   "$(oc get secret -n openshift-gitops openshift-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
+echo "                🔐 Password:   "$(oc get secret -n argocd openshift-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
 echo "  "
 
 

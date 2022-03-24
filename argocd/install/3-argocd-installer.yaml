@@ -1,12 +1,27 @@
 apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: cp4waiops
+  namespace: argocd
+spec:
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  destinations:
+    - namespace: '*'
+      server: '*'
+  sourceRepos:
+    - '*'
+---
+apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: installer
-  namespace: openshift-gitops
+  namespace: argocd
 spec:
-  project: default
+  project: cp4waiops
   source:
-    repoURL: 'https://github.com/niklaushirt/cp4waiops-demo-gitops'
+    repoURL: 'https://github.com/niklaushirt/aiops-install-gitops-33'
     path: charts/0_installer/installer
     targetRevision: 
     helm:

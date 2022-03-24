@@ -74,5 +74,5 @@ oc create ns awx
 echo "  "
 echo "***************************************************************************************************************************************************"
 echo "  📥 Create Application in ArgoCD"
-oc apply -n openshift-gitops -f ./argocd/applications/argocd-solutions-awx.yaml
+oc apply -n argocd -f ./argocd/applications/argocd-solutions-awx.yaml
 

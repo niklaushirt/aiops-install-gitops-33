@@ -140,4 +140,4 @@ cat /tmp/cp4waiops-eventmanager.yaml
 echo "  "
 echo "***************************************************************************************************************************************************"
 echo "  📥 Create Application in ArgoCD"
-oc apply -n openshift-gitops -f /tmp/cp4waiops-eventmanager.yaml
+oc apply -n argocd -f /tmp/cp4waiops-eventmanager.yaml

@@ -88,7 +88,7 @@ echo ""
 echo ""
 
 echo "  Initializing"
-export ARGOCD_NAMESPACE=$(oc get po -n openshift-gitops --ignore-not-found|grep openshift-gitops-server |awk '{print$1}')
+export ARGOCD_NAMESPACE=$(oc get po -n argocd --ignore-not-found|grep argocd-gitops-server |awk '{print$1}')
 echo "  ........."
 export WAIOPS_NAMESPACE=$(oc get po -A|grep aimanager-operator |awk '{print$1}')
 echo "  o........"
@@ -161,8 +161,8 @@ menu_INSTALL_AIMGR () {
                   echo ""
 
                   echo ""
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerInstall","value":"true"}}]'
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerPullToken","value":"'$TOKEN'"}}]'
+                  oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerInstall","value":"true"}}]'
+                  oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerPullToken","value":"'$TOKEN'"}}]'
                   argocd app sync installer
             else
                   echo "   ✅ Ok, continuing with demo content..."
@@ -171,10 +171,10 @@ menu_INSTALL_AIMGR () {
 
                   echo ""
 
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerInstall","value":"true"}}]'
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerPullToken","value":"'$TOKEN'"}}]'
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"addons.LDAPInstall","value":"true"}}]'
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"addons.RobotShopInstall","value":"true"}}]'
+                  oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerInstall","value":"true"}}]'
+                  oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerPullToken","value":"'$TOKEN'"}}]'
+                  oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"addons.LDAPInstall","value":"true"}}]'
+                  oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"addons.RobotShopInstall","value":"true"}}]'
                   argocd app sync installer
 
             fi
@@ -228,8 +228,8 @@ menu_INSTALL_EVTMGR () {
             echo ""
 
             echo ""
-            oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"core.eventManager.eventManagerInstall","value":"true"}}]'
-            oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"core.eventManager.eventManagerPullToken","value":"'$TOKEN'"}}]'
+            oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"core.eventManager.eventManagerInstall","value":"true"}}]'
+            oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"core.eventManager.eventManagerPullToken","value":"'$TOKEN'"}}]'
             argocd app sync installer
 
       else
@@ -252,7 +252,7 @@ menu_INSTALL_AIOPSDEMO () {
 
       helmValue=CP4WAIOPSDemoUIInstall
       echo "Patching"$helmValue
-      oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"addons.'$helmValue'","value":"true"}}]'
+      oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"addons.'$helmValue'","value":"true"}}]'
       argocd app sync installer
 
 }
@@ -266,7 +266,7 @@ menu_INSTALL_ROBOTSHOP () {
 
       helmValue=RobotShopInstall
       echo "Patching"$helmValue
-      oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"addons.'$helmValue'","value":"true"}}]'
+      oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"addons.'$helmValue'","value":"true"}}]'
       argocd app sync installer
 }
 
@@ -279,7 +279,7 @@ menu_INSTALL_LDAP () {
 
       helmValue=LDAPInstall
       echo "Patching"$helmValue
-      oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"addons.'$helmValue'","value":"true"}}]'
+      oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"addons.'$helmValue'","value":"true"}}]'
       argocd app sync installer
 }
 
@@ -291,7 +291,7 @@ menu_INSTALL_TURBO () {
 
       helmValue=TurbonomicInstall
       echo "Patching"$helmValue
-      oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
+      oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
       argocd app sync installer
 }
 
@@ -304,7 +304,7 @@ menu_INSTALL_AWX () {
 
       helmValue=AWXInstall
       echo "Patching"$helmValue
-      oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
+      oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
       argocd app sync installer
 }
 
@@ -319,7 +319,7 @@ menu_INSTALL_ELK () {
 
       helmValue=ELKInstall
       echo "Patching"$helmValue
-      oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
+      oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
       argocd app sync installer
 }
 
@@ -333,7 +333,7 @@ menu_INSTALL_ISTIO () {
 
       helmValue=IstioInstall
       echo "Patching"$helmValue
-      oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
+      oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
       argocd app sync installer
 }
 
@@ -381,8 +381,8 @@ menu_INSTALL_HUMIO () {
             helmValue=HumioInstall
             helmLicense=HumioLicense
             echo "Patching"$helmValue
-            oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
-            oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmLicense'","value":'$TOKEN'}}]'
+            oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
+            oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmLicense'","value":'$TOKEN'}}]'
             argocd app sync installer
 
             
@@ -398,9 +398,9 @@ menu_INSTALL_HUMIO () {
 
 menu_LOGIN_ARGO(){
 
-      export ARGOCD_URL=$(oc get route -n  openshift-gitops  openshift-gitops-server -o jsonpath={.spec.host})
+      export ARGOCD_URL=$(oc get route -n  argocd  argocd-gitops-server -o jsonpath={.spec.host})
       export ARGOCD_USER=admin
-      export ARGOCD_PWD=$(oc get secret -n openshift-gitops openshift-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
+      export ARGOCD_PWD=$(oc get secret -n argocd argocd-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
 
       echo "--------------------------------------------------------------------------------------------"
       echo " 🚀 Logging In" 
@@ -413,9 +413,9 @@ menu_LOGIN_ARGO(){
 
 menu_APPS_ARGO(){
 
-      export ARGOCD_URL=$(oc get route -n  openshift-gitops  openshift-gitops-server -o jsonpath={.spec.host})
+      export ARGOCD_URL=$(oc get route -n  argocd  argocd-gitops-server -o jsonpath={.spec.host})
       export ARGOCD_USER=admin
-      export ARGOCD_PWD=$(oc get secret -n openshift-gitops openshift-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
+      export ARGOCD_PWD=$(oc get secret -n argocd argocd-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
 
       echo "--------------------------------------------------------------------------------------------"
       echo " 🚀 Logging In" 
@@ -460,19 +460,19 @@ echo "**************************************************************************
 echo " 🚀 CloudPak for Watson AIOPs - INSTALL"
 echo "*****************************************************************************************************************************"
 echo "  "
-echo "  ℹ️  This script provides different options to install CP4WAIOPS demo environments through OpenShift GitOps(ArgoCD)"
+echo "  ℹ️  This script provides different options to install CP4WAIOPS demo environments through ArgoCD"
 echo ""
 echo ""
 
-if [[  $ARGOCD_NAMESPACE =~ "openshift-gitops" ]]; then
+if [[  $ARGOCD_NAMESPACE =~ "argocd" ]]; then
 
-      export ARGOCD_URL=$(oc get route -n  openshift-gitops  openshift-gitops-server -o jsonpath={.spec.host})
+      export ARGOCD_URL=$(oc get route -n  argocd  argocd-gitops-server -o jsonpath={.spec.host})
       export ARGOCD_USER=admin
-      export ARGOCD_PWD=$(oc get secret -n openshift-gitops openshift-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
+      export ARGOCD_PWD=$(oc get secret -n argocd argocd-gitops-cluster -o "jsonpath={.data['admin\.password']}"| base64 --decode)
 
       echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
       echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
-      echo "    🚀 Connect to OpenShift GitOps to check your deployments"
+      echo "    🚀 Connect to ArgoCD to check your deployments"
       echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
       echo "    -----------------------------------------------------------------------------------------------------------------------------------------------"
       echo "    "
@@ -499,16 +499,16 @@ until [ "$selection" = "0" ]; do
   
 
 echo "  📥 Prerequisites Install"
-if [[ ! $ARGOCD_NAMESPACE =~ "openshift-gitops" ]]; then
-      echo "    	1  - Install Openshift GitOps                                 - Install OpenShift GitOps/ArgoCD"
+if [[ ! $ARGOCD_NAMESPACE =~ "argocd" ]]; then
+      echo "    	1  - Install ArgoCD                                 - Install ArgoCD/ArgoCD"
 else
-      echo "    	✅  - Install Openshift GitOps                                "
+      echo "    	✅  - Install ArgoCD                                "
 fi
 
 echo "    	2  - Install Prerequisites Mac                                - Install Prerequisites for Mac"
 echo "    	3  - Install Prerequisites Ubuntu                             - Install Prerequisites for Ubuntu"
 echo "  "
-if [[ $ARGOCD_NAMESPACE =~ "openshift-gitops" ]]; then
+if [[ $ARGOCD_NAMESPACE =~ "argocd" ]]; then
 
       echo "  🚀 CP4WAIOPS - Base Install"
       if [[ $WAIOPS_NAMESPACE == "" ]]; then
@@ -517,7 +517,7 @@ if [[ $ARGOCD_NAMESPACE =~ "openshift-gitops" ]]; then
             echo "    	✅  - Install AI Manager                                      "
       fi
 
-      if [[ ! $EVTMGR_NAMESPACE =~ "openshift-gitops" ]]; then
+      if [[ ! $EVTMGR_NAMESPACE =~ "argocd" ]]; then
             echo "    	12  - Install Event Manager                                   - Install CP4WAIOPS Event Manager Component"
       else
             echo "    	✅  - Install Event Manager                                   "
@@ -585,7 +585,7 @@ if [[ $ARGOCD_NAMESPACE =~ "openshift-gitops" ]]; then
 
             #       echo "    	25  - Install OpenShift Logging                               - Install OpenShift Logging (ELK)"
       echo "  "
-      echo "  🔎 Openshift Gitops/ArgoCD"
+      echo "  🔎 ArgoCD/ArgoCD"
       echo "    	41  - Login to ArgoCD                                        "
       echo "    	42  - ArgoCD List Applications                                     "
 
@@ -593,7 +593,7 @@ if [[ $ARGOCD_NAMESPACE =~ "openshift-gitops" ]]; then
 else
 echo "***************************************************************************************************************************************************"
 
-      echo "  ❗ All other options are disabled until OpenShift GitOps has been  installed"
+      echo "  ❗ All other options are disabled until ArgoCD has been  installed"
       echo "***************************************************************************************************************************************************"
 
 fi
