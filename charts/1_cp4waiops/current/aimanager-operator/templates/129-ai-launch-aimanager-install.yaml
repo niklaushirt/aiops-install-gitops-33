@@ -4,7 +4,6 @@ metadata:
   name: 129-ai-launch-aimanager-install
   annotations:
     argocd.argoproj.io/sync-wave: "129"
-    argocd.argoproj.io/sync-options: Replace=true
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:
