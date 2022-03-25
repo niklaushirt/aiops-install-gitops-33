@@ -4,6 +4,7 @@ metadata:
   name: 150-ai-create-demo-user
   annotations:
     argocd.argoproj.io/sync-wave: "150"
+    argocd.argoproj.io/sync-options: Replace=true
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:

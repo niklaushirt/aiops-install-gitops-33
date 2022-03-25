@@ -4,6 +4,7 @@ metadata:
   name: 199-ai-get-logins-aimanager
   annotations:
     argocd.argoproj.io/sync-wave: "199"
+    argocd.argoproj.io/sync-options: Replace=true
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:
