@@ -76,7 +76,7 @@ spec:
               echo "---------------------------------------------------------------------------------"
               
               echo "---------------------------------------------------------------------------------"
-              QUERY_NAME=create-analysis-CR.graphql
+              QUERY_NAME=run-analysis-CR.graphql
               echo "---------------------------------------------------------------------------------"
 
               QUERY=$(curl https://raw.githubusercontent.com/niklaushirt/aiops-install-awx-33/main/tools/02_training/training-definitions/$QUERY_NAME)
@@ -100,7 +100,7 @@ spec:
               echo "---------------------------------------------------------------------------------"
               
               echo "---------------------------------------------------------------------------------"
-              QUERY_NAME=create-analysis-SI.graphql
+              QUERY_NAME=run-analysis-SI.graphql
               echo "---------------------------------------------------------------------------------"
 
               QUERY=$(curl https://raw.githubusercontent.com/niklaushirt/aiops-install-awx-33/main/tools/02_training/training-definitions/$QUERY_NAME)
