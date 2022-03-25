@@ -29,7 +29,7 @@ spec:
               echo " 🚀 Launch Installation of AWX"
               echo "---------------------------------------------------------------------------------"
 
-              oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerAWX","value":"true"}}]'
+              oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.config.aiManagerAWX","value":"true"}}]'
 
       restartPolicy: Never
       serviceAccountName: openshift-argocd-admin-ai
