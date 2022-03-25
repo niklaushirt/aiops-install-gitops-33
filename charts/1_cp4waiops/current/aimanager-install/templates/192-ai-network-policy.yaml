@@ -5,6 +5,7 @@ metadata:
   name: 192-ai-network-policy
   annotations:
     argocd.argoproj.io/sync-wave: "192"
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:
