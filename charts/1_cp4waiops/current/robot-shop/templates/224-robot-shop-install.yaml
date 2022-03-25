@@ -176,7 +176,7 @@ spec:
     port: 3306
     targetPort: 3306
   selector:
-    service: mysql
+    service: mysql1
 ---
 # Source: robot-shop/templates/payment-service.yaml
 apiVersion: v1
