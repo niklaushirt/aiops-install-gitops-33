@@ -4,7 +4,7 @@ metadata:
   name: 129-evt-launch-eventmanager-install
   annotations:
     argocd.argoproj.io/sync-wave: "129"
-  namespace: {{.Values.spec.aiManager.namespace}}
+  namespace: {{.Values.spec.eventManager.namespace}}
 spec:
   template:
     spec:
