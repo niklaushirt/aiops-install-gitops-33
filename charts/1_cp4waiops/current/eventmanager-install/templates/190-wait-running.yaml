@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: 900-wait-running-evtmanager
+  name: 190-wait-running-evtmanager
   annotations:
     argocd.argoproj.io/sync-wave: "190"
   namespace: {{.Values.spec.eventManager.namespace}}
