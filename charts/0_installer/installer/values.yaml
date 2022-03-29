@@ -9,6 +9,10 @@ aiManager:
     aiManagerAWX: false
     aiManagerRobotShop: false
     aiManagerLDAP: false
+eventManager:
+  core:
+    eventManagerInstallOperator: false
+    eventManagerInstallInstance: false
 solutions:
   TurbonomicInstall: false
   HumioInstall: false

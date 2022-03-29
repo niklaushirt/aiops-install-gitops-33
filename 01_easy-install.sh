@@ -87,28 +87,24 @@ echo ""
 echo ""
 echo ""
 
-echo "  Initializing"
+printf "\r  🐣🥚🥚🥚🥚🥚🥚🥚🥚🥚 - Getting ArgoCD Namespace                                     "
 export ARGOCD_NAMESPACE=$(oc get po -n openshift-gitops --ignore-not-found|grep openshift-gitops-server |awk '{print$1}')
-echo "  ........."
+printf "\r  🐥🐣🥚🥚🥚🥚🥚🥚🥚🥚 - Getting AI Manager Status                                     "
 export WAIOPS_NAMESPACE=$(oc get po -A|grep aimanager-operator |awk '{print$1}')
-echo "  o........"
+printf "\r  🐥🐥🐣🥚🥚🥚🥚🥚🥚🥚 - Getting Event Manager Status                                     "
 export EVTMGR_NAMESPACE=$(oc get po -A|grep noi-operator |awk '{print$1}')
-echo "  oo......."
+printf "\r  🐥🐥🐥🐥🐣🥚🥚🥚🥚🥚 - GettingRobotShop Status                                     "
 export RS_NAMESPACE=$(oc get ns robot-shop  --ignore-not-found|awk '{print$1}')
-echo "  ooo......"
+printf "\r  🐥🐥🐥🐥🐥🐣🥚🥚🥚🥚 - Getting Turbonomic Status                                     "
 export TURBO_NAMESPACE=$(oc get ns turbonomic  --ignore-not-found|awk '{print$1}')
-echo "  oooo....."
+printf "\r  🐥🐥🐥🐥🐥🐥🐣🥚🥚🥚 - Getting AWX Status                                     "
 export AWX_NAMESPACE=$(oc get ns awx  --ignore-not-found|awk '{print$1}')
-echo "  ooooo...."
+printf "\r  🐥🐥🐥🐥🐥🐥🐥🐣🥚🥚 - Getting LDAP Status                                     "
 export LDAP_NAMESPACE=$(oc get po -n default --ignore-not-found| grep ldap |awk '{print$1}')
-echo "  oooooo..."
+printf "\r  🐥🐥🐥🐥🐥🐥🐥🐥🐣🥚 - Getting Demo UI Status                                     "
 export DEMO_NAMESPACE=$(oc get po -A|grep demo-ui- |awk '{print$1}')
-echo "  ooooooo.."
+printf "\r  🐥🐥🐥🐥🐥🐥🐥🐥🐥🐣 - Getting ELK Status                                     "
 export ELK_NAMESPACE=$(oc get ns openshift-logging  --ignore-not-found|awk '{print$1}')
-echo "  oooooooo."
-export ISTIO_NAMESPACE=$(oc get ns istio-logging  --ignore-not-found|awk '{print$1}')
-echo "  ooooooooo"
-export HUMIO_NAMESPACE=$(oc get ns humio-logging  --ignore-not-found|awk '{print$1}')
 echo "  ✅ Done"
 
 
@@ -154,32 +150,14 @@ menu_INSTALL_AIMGR () {
       echo ""
       read -p " ❗❓ Are you sure that this is correct? [y,N] " DO_COMM
       if [[ $DO_COMM == "y" ||  $DO_COMM == "Y" ]]; then
-            read -p " ❗❓ Do you want to install demo content (highly recommended - OpenLdap and RobotShop)? [Y,n] " DO_COMM
-            if [[ $DO_COMM == "n" ||  $DO_COMM == "N" ]]; then
-                  echo "   ✅ Ok, continuing without demo content..."
+                  echo "   ✅ Ok, continuing..."
                   echo ""
                   echo ""
 
                   echo ""
                   oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerInstallOperator","value":"true"}}]'
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerInstallInstance","value":"true"}}]'
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerPullToken","value":"'$TOKEN'"}}]'
                   argocd app sync installer
-            else
-                  echo "   ✅ Ok, continuing with demo content..."
-                  echo ""
-                  echo ""
-
-                  echo ""
-
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerInstallOperator","value":"true"}}]'
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerInstallInstance","value":"true"}}]'
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerPullToken","value":"'$TOKEN'"}}]'
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.config.aiManagerRobotShop","value":"true"}}]'
-                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.config.aiManagerLDAP","value":"true"}}]'
-                  argocd app sync installer
-
-            fi
+         
       else
             echo "    ⚠️  Skipping"
             echo "--------------------------------------------------------------------------------------------"
@@ -484,58 +462,58 @@ if [[ $ARGOCD_NAMESPACE =~ "openshift-gitops" ]]; then
             echo "    	✅  - Install AI Manager                                      "
       fi
 
-      if [[ ! $EVTMGR_NAMESPACE =~ "openshift-gitops" ]]; then
-            echo "    	12  - Install Event Manager                                   - Install CP4WAIOPS Event Manager Component"
-      else
-            echo "    	✅  - Install Event Manager                                   "
-      fi
+      # if [[ ! $EVTMGR_NAMESPACE =~ "openshift-gitops" ]]; then
+      #       echo "    	12  - Install Event Manager                                   - Install CP4WAIOPS Event Manager Component"
+      # else
+      #       echo "    	✅  - Install Event Manager                                   "
+      # fi
 
-      echo "  "
-      echo "  🌏 Solutions"
+      # echo "  "
+      # echo "  🌏 Solutions"
 
-      if [[ $TURBO_NAMESPACE == "" ]]; then
-            echo "    	21  - Install Turbonomic                                      - Install Turbonomic (needs a separate license)"
-      else
-            echo "    	✅  - Install Turbonomic                                      "
-      fi
+      # if [[ $TURBO_NAMESPACE == "" ]]; then
+      #       echo "    	21  - Install Turbonomic                                      - Install Turbonomic (needs a separate license)"
+      # else
+      #       echo "    	✅  - Install Turbonomic                                      "
+      # fi
 
-      if [[  $HUMIO_NAMESPACE == "" ]]; then
-            echo "    	22  - Install Humio                                           - Install Humio (needs a separate license)"
-      else
-            echo "    	✅  - Install Humio                                           "
-      fi
-
-
-      if [[  $AWX_NAMESPACE == "" ]]; then
-            echo "    	23  - Install AWX                                             - Install AWX (open source Ansible Tower)"
-      else
-            echo "    	✅  - Install AWX                                             "
-      fi
-
-      if [[  $ISTIO_NAMESPACE == "" ]]; then
-            echo "    	24  - Install OpenShift Mesh                                  - Install OpenShift Mesh (Istio)"
-       else
-            echo "    	✅  - Install OpenShift Mesh                                  "
-       fi
+      # if [[  $HUMIO_NAMESPACE == "" ]]; then
+      #       echo "    	22  - Install Humio                                           - Install Humio (needs a separate license)"
+      # else
+      #       echo "    	✅  - Install Humio                                           "
+      # fi
 
 
+      # if [[  $AWX_NAMESPACE == "" ]]; then
+      #       echo "    	23  - Install AWX                                             - Install AWX (open source Ansible Tower)"
+      # else
+      #       echo "    	✅  - Install AWX                                             "
+      # fi
 
-      if [[  $ISTIO_NAMESPACE == "" ]]; then
-            echo "    	25  - Install OpenShift Logging                               - Install OpenShift Logging (ELK)"
-       else
-            echo "    	✅  - Install OpenShift Logging                                 "
-       fi
+      # if [[  $ISTIO_NAMESPACE == "" ]]; then
+      #       echo "    	24  - Install OpenShift Mesh                                  - Install OpenShift Mesh (Istio)"
+      #  else
+      #       echo "    	✅  - Install OpenShift Mesh                                  "
+      #  fi
 
 
-      echo "  "
-      echo "  📛 CP4WAIOPS Addons"
+
+      # if [[  $ISTIO_NAMESPACE == "" ]]; then
+      #       echo "    	25  - Install OpenShift Logging                               - Install OpenShift Logging (ELK)"
+      #  else
+      #       echo "    	✅  - Install OpenShift Logging                                 "
+      #  fi
 
 
-      if [[  $DEMO_NAMESPACE == "" ]]; then
-            echo "    	31  - Install CP4WAIOPS Demo Application                      - Install CP4WAIOPS Demo Application"
-      else
-            echo "    	✅  - Install CP4WAIOPS Demo Application                      "
-      fi
+      # echo "  "
+      # echo "  📛 CP4WAIOPS Addons"
+
+
+      # if [[  $DEMO_NAMESPACE == "" ]]; then
+      #       echo "    	31  - Install CP4WAIOPS Demo Application                      - Install CP4WAIOPS Demo Application"
+      # else
+      #       echo "    	✅  - Install CP4WAIOPS Demo Application                      "
+      # fi
 
 
       if [[  $LDAP_NAMESPACE == "" ]]; then
