@@ -167,6 +167,56 @@ menu_INSTALL_AIMGR () {
 }
 
 
+menu_INSTALL_EVTMGR () {
+      echo "--------------------------------------------------------------------------------------------"
+      echo " 🚀  Install CP4WAIOPS Event Manager" 
+      echo "--------------------------------------------------------------------------------------------"
+      echo ""
+      if [[ ! $EVTMGR_NAMESPACE == "" ]]; then
+            echo "❗⚠️ CP4WAIOPS Event Manager seems to be installed already"
+
+            read -p " ❗❓ Are you sure you want to continue? [y,N] " DO_COMM
+            if [[ $DO_COMM == "y" ||  $DO_COMM == "Y" ]]; then
+                  echo "   ✅ Ok, continuing..."
+                  echo ""
+                  echo ""
+
+            else
+                  echo "    ❌ Aborting"
+                  echo "--------------------------------------------------------------------------------------------"
+                  echo  ""    
+                  echo  ""
+                  exit 1
+            fi
+
+      fi
+
+      echo ""
+      echo ""
+      echo "  Enter CP4WAIOPS Pull token: "
+      read TOKEN
+      echo ""
+      echo "You have entered the following Token:"
+      echo $TOKEN
+      echo ""
+      read -p " ❗❓ Are you sure that this is correct? [y,N] " DO_COMM
+      if [[ $DO_COMM == "y" ||  $DO_COMM == "Y" ]]; then
+                  echo "   ✅ Ok, continuing..."
+                  echo ""
+                  echo ""
+
+                  echo ""
+                  oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":eventiManager.core.eventManagerInstallOperator","value":"true"}}]'
+                  oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.core.aiManagerPullToken","value":"'$TOKEN'"}}]'
+                  argocd app sync installer
+         
+      else
+            echo "    ⚠️  Skipping"
+            echo "--------------------------------------------------------------------------------------------"
+            echo  ""    
+            echo  ""
+      fi
+}
 
 
 menu_INSTALL_ROBOTSHOP () {
@@ -177,6 +227,7 @@ menu_INSTALL_ROBOTSHOP () {
 
 
       oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"aiManager.config.aiManagerRobotShop","value":"true"}}]'
+      oc patch applications.argoproj.io -n argocd installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"eventManager.core.eventManagerPullToken","value":"'$TOKEN'"}}]'
       argocd app sync installer
 }
 
@@ -284,62 +335,6 @@ menu_INSTALL_ISTIO () {
 
 
 
-menu_INSTALL_HUMIO () {
-      echo "--------------------------------------------------------------------------------------------"
-      echo " 🚀  Install Humio" 
-      echo "--------------------------------------------------------------------------------------------"
-      echo ""
-      if [[ ! $HUMIO_NAMESPACE == "" ]]; then
-            echo "❗⚠️ Humio seems to be installed already"
-
-            read -p " ❗❓ Are you sure you want to continue? [y,N] " DO_COMM
-            if [[ $DO_COMM == "y" ||  $DO_COMM == "Y" ]]; then
-                  echo "   ✅ Ok, continuing..."
-                  echo ""
-                  echo ""
-
-            else
-                  echo "    ❌ Aborting"
-                  echo "--------------------------------------------------------------------------------------------"
-                  echo  ""    
-                  echo  ""
-                  exit 1
-            fi
-
-      fi
-
-      echo ""
-      echo ""
-      echo "  Enter Humio License: "
-      read TOKEN
-      echo ""
-      echo "You have entered the following license:"
-      echo $TOKEN
-      echo ""
-      read -p " ❗❓ Are you sure that this is correct? [y,N] " DO_COMM
-      if [[ $DO_COMM == "y" ||  $DO_COMM == "Y" ]]; then
-            echo "   ✅ Ok, continuing..."
-            echo ""
-            echo ""
-
-            echo ""
-            helmValue=HumioInstall
-            helmLicense=HumioLicense
-            echo "Patching"$helmValue
-            oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmValue'","value":"true"}}]'
-            oc patch applications.argoproj.io -n openshift-gitops installer --type=json -p='[{"op": "add", "path": "/spec/source/helm/parameters/-", "value":{"name":"solutions.'$helmLicense'","value":'$TOKEN'}}]'
-            argocd app sync installer
-
-            
-
-      else
-            echo "    ⚠️  Skipping"
-            echo "--------------------------------------------------------------------------------------------"
-            echo  ""    
-            echo  ""
-      fi
-}
-
 
 menu_LOGIN_ARGO(){
 
@@ -426,6 +421,8 @@ if [[  $ARGOCD_NAMESPACE =~ "openshift-gitops" ]]; then
       echo "    🧔 User:       $ARGOCD_USER"
       echo "    🔐 Password:   $ARGOCD_PWD"
       echo "  "
+      echo "  "
+      echo "  ArgoCD Logging in...."
       argocd login $ARGOCD_URL --insecure --username $ARGOCD_USER --password $ARGOCD_PWD
 
 fi
@@ -462,11 +459,11 @@ if [[ $ARGOCD_NAMESPACE =~ "openshift-gitops" ]]; then
             echo "    	✅  - Install AI Manager                                      "
       fi
 
-      # if [[ ! $EVTMGR_NAMESPACE =~ "openshift-gitops" ]]; then
-      #       echo "    	12  - Install Event Manager                                   - Install CP4WAIOPS Event Manager Component"
-      # else
-      #       echo "    	✅  - Install Event Manager                                   "
-      # fi
+      if [[ ! $EVTMGR_NAMESPACE =~ "openshift-gitops" ]]; then
+            echo "    	12  - Install Event Manager                                   - Install CP4WAIOPS Event Manager Component"
+      else
+            echo "    	✅  - Install Event Manager                                   "
+      fi
 
       # echo "  "
       # echo "  🌏 Solutions"

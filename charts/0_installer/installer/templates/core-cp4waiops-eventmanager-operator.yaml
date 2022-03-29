@@ -19,7 +19,7 @@ spec:
       parameters:
         - name: spec.dockerPassword
           value: >-
-            {{ .Values.aiManager.core.aiManagerPullToken }}
+            {{ .Values.aiManager.core.eventManagerPullToken }}
   project: default
   syncPolicy:
     automated:

@@ -9,10 +9,10 @@ echo "--------------------------------------------------------------------------
 echo "    🗄️  Make local copy ../ARCHIVE/aiops-ansible-$gitCommitMessage"
 echo "--------------------------------------------------------------------------------------------------------------------------------"
 
-mkdir -p ../ARCHIVE/aiops-ansible-$gitCommitMessage
+mkdir -p ../ARCHIVE/aiops-install-gitops-$gitCommitMessage
 
-cp -r * ../ARCHIVE/aiops-ansible-$gitCommitMessage
-cp .gitignore ../ARCHIVE/aiops-ansible-$gitCommitMessage
+cp -r * ../ARCHIVE/aiops-install-gitops-$gitCommitMessage
+cp .gitignore ../ARCHIVE/aiops-install-gitops-$gitCommitMessage
  
 
 echo "--------------------------------------------------------------------------------------------------------------------------------"

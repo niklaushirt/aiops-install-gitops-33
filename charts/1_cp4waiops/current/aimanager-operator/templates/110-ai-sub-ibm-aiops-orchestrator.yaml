@@ -8,6 +8,6 @@ metadata:
 spec:
   channel: {{.Values.spec.aiManager.channel}}
   installPlanApproval: Automatic
-  name: noi
+  name: ibm-aiops-orchestrator
   source: ibm-operator-catalog
   sourceNamespace: openshift-marketplace

@@ -3,7 +3,7 @@ kind: Job
 metadata:
   name: 199-ai-launch-awx-install
   annotations:
-    argocd.argoproj.io/sync-wave: "129"
+    argocd.argoproj.io/sync-wave: "199"
   namespace: {{.Values.spec.aiManager.namespace}}
 spec:
   template:
