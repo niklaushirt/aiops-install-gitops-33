@@ -30,7 +30,7 @@ spec:
               echo "---------------------------------------------------------------------------------"
 
               while : ; do
-                READY=$(oc get csv  -n {{.Values.spec.aiManager.namespace}} --no-headers | grep -v Succeeded|wc -l|tr -d ' ')
+                READY=$(oc get csv  -n {{.Values.spec.eventManager.namespace}} --no-headers | grep -v Succeeded|wc -l|tr -d ' ')
                 if [[ $READY  -gt 0 ]]; then
                   echo "AIOps Operator is not ready yet. Not ready: $READY"
                   sleep 10s
