@@ -11,5 +11,4 @@ spec:
   name: noi-operator
   source: ibm-noi-catalog
   sourceNamespace: openshift-marketplace
-  startingCSV: noi-operator.v1.v3.3
 
