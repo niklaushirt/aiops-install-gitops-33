@@ -24,16 +24,14 @@ spec:
             - /bin/sh
             - -c
             - |
-              
-
-                while : ; do
-                READY=$(oc get pod -n openshift-logging | grep -v "1/1\|2/2\|3/3\|4/4"|wc -l|tr -d ' ')
-                if [[  $READY  -gt '1' ]]; then
-                  echo 'Deployment not completed yet.'
-                  sleep 30
-                else
-                  break
-                fi
+              while : ; do
+              READY=$(oc get pod -n openshift-logging | grep -v "1/1\|2/2\|3/3\|4/4"|wc -l|tr -d ' ')
+              if [[  $READY  -gt '1' ]]; then
+                echo 'Deployment not completed yet.'
+                sleep 30
+              else
+                break
+              fi
               done
 
               rm admin-ca || true
