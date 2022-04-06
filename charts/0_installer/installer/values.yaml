@@ -13,7 +13,7 @@ eventManager:
   core:
     eventManagerInstallOperator: false
     eventManagerInstallInstance: false
-solutions:
+addons:
   TurbonomicInstall: false
   HumioInstall: false
   HumioLicense: <HUMIO_LICENSE>

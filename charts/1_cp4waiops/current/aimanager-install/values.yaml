@@ -34,7 +34,7 @@ spec:
 
   aiManager:
 
-    installationName: ibm-aiops
+    installationName: ibm-cp-watson-aiops
     ## Enable AI Manager
     ##
     enabled: true
