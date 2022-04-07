@@ -21,7 +21,7 @@ spec:
               memory: "256Mi"
               cpu: "200m"
           command:
-            - /bin/sh
+            - /bin/bash
             - -c
             - |
               
@@ -31,7 +31,7 @@ spec:
               echo "---------------------------------------------------------------------------------"
 
               while : ; do
-                READY=$(oc get po -n default| grep -v Completed | grep ldap)
+                READY=$(oc get po -n default| grep -v Completed | grep ldap| grep "0/1"|wc -l)
                 if [[ $READY  =~ '0/1' ]]; then
                   echo 'LDAP Pods not ready yet.'
                   sleep 10s
