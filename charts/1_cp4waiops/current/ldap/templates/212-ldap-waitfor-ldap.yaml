@@ -31,7 +31,7 @@ spec:
               echo "---------------------------------------------------------------------------------"
 
               while : ; do
-                READY=$(oc get po -n default | grep ldap)
+                READY=$(oc get po -n default| grep -v Completed | grep ldap)
                 if [[ $READY  =~ '0/1' ]]; then
                   echo 'LDAP Pods not ready yet.'
                   sleep 10s
