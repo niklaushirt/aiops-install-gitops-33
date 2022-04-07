@@ -6,37 +6,40 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "120"
     argocd.argoproj.io/sync-options: SkipDryRunOnMissingResource=true
+
 spec:
   managementState: "Managed"  
   logStore:
     type: "elasticsearch"  
     retentionPolicy: 
       application:
-        maxAge: 10d
+        maxAge: 1d
+      infra:
+        maxAge: 7d
+      audit:
+        maxAge: 7d
     elasticsearch:
-      nodeCount: 3 
+      nodeCount: 1
       storage:
-        storageClassName: {{.Values.elkStorageClass}}
-        size: 40G
+        storageClassName: "{{.Values.elkStorageClass}}" 
+        size: 200G
       resources: 
-        requests:
-          memory: "8Gi"
+          limits:
+            memory: "16Gi"
+          requests:
+            memory: "16Gi"
       proxy: 
         resources:
           limits:
             memory: 256Mi
           requests:
             memory: 256Mi
-      redundancyPolicy: "SingleRedundancy"
+      redundancyPolicy: "ZeroRedundancy"
   visualization:
     type: "kibana"  
     kibana:
       replicas: 1
-  curation:
-    type: "curator"
-    curator:
-      schedule: "30 3 * * *" 
   collection:
     logs:
       type: "fluentd"  
-      fluentd: {}
+      fluentd: {}    
