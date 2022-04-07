@@ -5,7 +5,7 @@ metadata:
   name: 213-ldap-register-ldap
   annotations:
     argocd.argoproj.io/sync-wave: "213"
-  namespace: {{.Values.aiManagerNamespace}}
+  namespace: default
 spec:
   template:
     spec:

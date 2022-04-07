@@ -5,7 +5,7 @@ metadata:
   name: 212-ldap-waitfor-ldap
   annotations:
     argocd.argoproj.io/sync-wave: "212"
-  namespace: {{.Values.aiManagerNamespace}}
+  namespace: default
 spec:
   template:
     spec:
