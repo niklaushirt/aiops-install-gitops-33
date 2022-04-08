@@ -19,7 +19,7 @@ spec:
       audit:
         maxAge: 7d
     elasticsearch:
-      nodeCount: 1
+      nodeCount: 3
       storage:
         storageClassName: "{{.Values.elkStorageClass}}" 
         size: 200G
@@ -34,7 +34,7 @@ spec:
             memory: 256Mi
           requests:
             memory: 256Mi
-      redundancyPolicy: "ZeroRedundancy"
+      redundancyPolicy: "SingleRedundancy"
   visualization:
     type: "kibana"  
     kibana:

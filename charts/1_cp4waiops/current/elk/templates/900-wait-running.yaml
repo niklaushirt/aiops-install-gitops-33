@@ -26,7 +26,7 @@ spec:
               
 
               while : ; do
-                READY=$(oc get pod -n openshift-logging | grep "1/1\|2/2\|3/3\|4/4"|wc -l|tr -d ' ')
+                READY=$(oc get pod -n openshift-logging |grep -v "Error"|grep -v "Completed"| grep "1/1\|2/2\|3/3\|4/4"|wc -l|tr -d ' ')
                 if [[  $READY  -lt '10' ]]; then
                   echo 'Deployment not completed yet.'
                   sleep 30
